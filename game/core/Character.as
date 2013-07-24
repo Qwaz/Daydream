@@ -8,6 +8,7 @@
 	
 	import game.map.MapManager;
 	import game.map.Door;
+	import game.map.Ladder;
 	
 	public class Character extends MovieClip {
 		private static const
@@ -16,7 +17,8 @@
 		WALK:String="walk",
 		FALL:String="fall",
 		HOLD:String="hold",
-		CLIMB:String="climb";
+		CLIMB:String="climb",
+		LADDER:String="ladder";
 		
 		private static const
 		JUMP_KEY:uint = Keyboard.SPACE;
@@ -66,6 +68,9 @@
 		private function enterFrameHandler(e:Event):void {
 			var map:MapManager = Game.currentGame.mapManager;
 			
+			/********************
+			가만히 서 있을 때
+			********************/
 			if(this.state == STAY){
 				if(Key.pressed(Keyboard.RIGHT) || Key.pressed(Keyboard.LEFT)){
 					this.state = WALK;
@@ -79,6 +84,9 @@
 						door.open();
 					}
 				}
+			/********************
+			걸어다닐 때
+			********************/
 			} else if(this.state == WALK){
 				var prevX:Number = this.x;
 				var prevY:Number = this.y;
@@ -131,7 +139,15 @@
 					speedY = -JUMP_POWER;
 					this.state = FALL;
 				}
+			/********************
+			점프, 떨어질 때
+			********************/
 			} else if(this.state == FALL){
+				//사다리 오르기 처리
+				if(Key.pressed(Keyboard.UP) && map.hitTestLadder(localToGlobal(headPoint))){
+					this.state = LADDER;
+				}
+				
 				speedX *= FRICTION_X;
 				speedY += GRAVITY;
 				
@@ -209,6 +225,9 @@
 				if((speedX > 0 && rightCheck) || (speedX < 0 && leftCheck)){
 					this.x -= speedX;
 				}
+			/********************
+			매달려 있을 때
+			********************/
 			} else if(this.state == HOLD){
 				if(Key.pressed(JUMP_KEY)){
 					this.state = CLIMB;
@@ -226,9 +245,36 @@
 					speedY = 0;
 					this.state = FALL;
 				}
+			/********************
+			매달린 상태, 사다리 등에서 올라갈 때
+			********************/
 			} else if(this.state == CLIMB){
 				this.x += (holding.x - this.x)*0.3;
 				this.y += (holding.y - this.y)*0.3;
+			/********************
+			사다리를 타고 있을 때
+			********************/
+			} else if(this.state == LADDER){
+				if(Key.pressed(Keyboard.UP)){
+					nextFrame();
+					this.y -= SMOOTH_GAP;
+					
+					if(!map.hitTestLadder(localToGlobal(headPoint))){
+						this.speedX = 0;
+						this.speedY = 0;
+						holding = localToGlobal(headPoint);
+						this.state = CLIMB;
+					}
+				} else if(Key.pressed(Keyboard.DOWN)){
+					nextFrame();
+					this.y += SMOOTH_GAP;
+					
+					if(!map.hitTestLadder(localToGlobal(downFootPoint))){
+						this.speedX = 0;
+						this.speedY = 0;
+						this.state = FALL;
+					}
+				}
 			}
 		}
 		

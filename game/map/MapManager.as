@@ -8,6 +8,7 @@
 		internal var wallVector:Vector.<Wall>;
 		internal var panelVector:Vector.<Panel>;
 		internal var doorVector:Vector.<Door>;
+		internal var ladderVector:Vector.<Ladder>;
 		
 		internal var holdPoints:Vector.<Point>;
 
@@ -15,6 +16,7 @@
 			wallVector = new Vector.<Wall>;
 			panelVector = new Vector.<Panel>;
 			doorVector = new Vector.<Door>;
+			ladderVector = new Vector.<Ladder>;
 			
 			holdPoints = new Vector.<Point>;
 		}
@@ -31,7 +33,7 @@
 		
 		public function hitTestPanel(target:Point):Boolean {
 			for each (var panel:Panel in panelVector){
-				if(panel.hitTestPoint(target.x, target.y, true)){
+				if(panel.hitTestPoint(target.x, target.y, false)){
 					return true;
 				}
 			}
@@ -41,12 +43,22 @@
 		
 		public function hitTestDoor(target:Point):Door {
 			for each (var door:Door in doorVector){
-				if(door.hitTestPoint(target.x, target.y, true)){
+				if(door.hitTestPoint(target.x, target.y, false)){
 					return door;
 				}
 			}
 			
 			return null;
+		}
+		
+		public function hitTestLadder(target:Point):Boolean {
+			for each (var ladder:Ladder in ladderVector){
+				if(ladder.hitTestPoint(target.x, target.y, false)){
+					return true;
+				}
+			}
+			
+			return false;
 		}
 		
 		public function hitTestPoint(rect:DisplayObject):Point {

@@ -8,6 +8,7 @@
 		
 		private var opened:Boolean = false;
 		private var locked:Boolean = false;
+		
 		public function Door() {
 		}
 		
