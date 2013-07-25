@@ -21,7 +21,7 @@
 			world.gotoAndStop("play");
 			
 			if(loadData == NO_DATA){
-				world.map.gotoAndStop(2);
+				world.map.gotoAndStop(3);
 			}
 		}
 		
