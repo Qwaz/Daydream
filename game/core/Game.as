@@ -11,6 +11,10 @@
 		public var mapManager:MapManager;
 		
 		private var _world:MovieClip;
+		
+		public var character:Character;
+		
+		public var slot:ItemManager;
 
 		public function Game(world:MovieClip, loadData:int=NO_DATA) {
 			currentGame = this;

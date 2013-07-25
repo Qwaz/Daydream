@@ -2,6 +2,7 @@
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.display.DisplayObject;
+	import flash.display.MovieClip;
 	
 	public class MapManager {
 		
@@ -9,6 +10,7 @@
 		internal var panelVector:Vector.<Panel>;
 		internal var doorVector:Vector.<Door>;
 		internal var ladderVector:Vector.<Ladder>;
+		public var itemVector:Vector.<MovieClip>;
 		
 		internal var holdPoints:Vector.<Point>;
 
@@ -17,6 +19,7 @@
 			panelVector = new Vector.<Panel>;
 			doorVector = new Vector.<Door>;
 			ladderVector = new Vector.<Ladder>;
+			itemVector = new Vector.<MovieClip>;
 			
 			holdPoints = new Vector.<Point>;
 		}
@@ -59,6 +62,16 @@
 			}
 			
 			return false;
+		}
+		
+		public function hitTestItem(target:MovieClip):int {
+			for (var i=0; i<itemVector.length; i++){
+				if(itemVector[i].hitTestObject(target)){
+					return i;
+				}
+			}
+			
+			return -1;
 		}
 		
 		public function hitTestPoint(rect:DisplayObject):Point {

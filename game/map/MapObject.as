@@ -5,7 +5,7 @@
 	public class MapObject extends Sprite {
 
 		public function MapObject() {
-			//this.visible = false;
+			this.visible = false;
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			addEventListener(Event.REMOVED_FROM_STAGE, removedFromStageHandler);

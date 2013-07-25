@@ -8,6 +8,7 @@
 	
 	import game.map.MapManager;
 	import game.map.Door;
+	import game.core.ItemManager;
 	import game.map.Ladder;
 	
 	public class Character extends MovieClip {
@@ -32,7 +33,7 @@
 		
 		private var _state:String;
 		
-		private var headPoint:Point, upFootPoint:Point, downFootPoint:Point, leftPoint:Point, rightPoint:Point, holdPoint:Point;
+		public var headPoint:Point, upFootPoint:Point, downFootPoint:Point, leftPoint:Point, rightPoint:Point, holdPoint:Point;
 		
 		private var speedX:Number=0;
 		private var speedY:Number=0;
@@ -53,6 +54,7 @@
 			state = FALL;
 			
 			addEventListener(Event.ENTER_FRAME, enterFrameHandler);
+			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			addEventListener(Event.REMOVED_FROM_STAGE, removedFromStageHandler);
 		}
 		
@@ -80,9 +82,14 @@
 					this.state = FALL;
 				} else if(Key.pressed(Keyboard.E)){
 					var door:Door = map.hitTestDoor(localToGlobal(downFootPoint));
+					var itemIndex:int = map.hitTestItem(Game.currentGame.character);
 					if(door != null){
 						door.open();
 					}
+					if(itemIndex != -1){
+						Game.currentGame.slot.getItem(itemIndex);
+					}
+					
 				}
 			/********************
 			걸어다닐 때
@@ -276,6 +283,10 @@
 					}
 				}
 			}
+		}
+		
+		private function addedToStageHandler(e:Event):void {
+			Game.currentGame.character = this;
 		}
 		
 		private function removedFromStageHandler(e:Event):void {
