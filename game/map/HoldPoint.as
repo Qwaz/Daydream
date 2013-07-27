@@ -12,11 +12,11 @@
 		}
 		
 		override protected function addedToStageHandler(e:Event):void {
-			Game.currentGame.mapManager.holdPoints.push(thisPoint);
+			Game.currentGame.mapManager.map::holdPoints.push(thisPoint);
 		}
 		
 		override protected function removedFromStageHandler(e:Event):void {
-			var targetVector:Vector.<Point> = Game.currentGame.mapManager.holdPoints;
+			var targetVector:Vector.<Point> = Game.currentGame.mapManager.map::holdPoints;
 			targetVector.splice(targetVector.indexOf(thisPoint), 1);
 			thisPoint = null;
 		}

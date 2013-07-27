@@ -8,11 +8,11 @@
 		}
 		
 		override protected function addedToStageHandler(e:Event):void {
-			Game.currentGame.mapManager.panelVector.push(this);
+			Game.currentGame.mapManager.map::panelVector.push(this);
 		}
 		
 		override protected function removedFromStageHandler(e:Event):void {
-			var targetVector:Vector.<Panel> = Game.currentGame.mapManager.panelVector;
+			var targetVector:Vector.<Panel> = Game.currentGame.mapManager.map::panelVector;
 			targetVector.splice(targetVector.indexOf(this), 1);
 		}
 	}

@@ -1,7 +1,7 @@
 ﻿package game.core {
 	import flash.display.MovieClip;
 	
-	import game.map.MapManager;
+	import game.core.MapManager;
 	
 	public class Game {
 		private static const NO_DATA:int = -1;

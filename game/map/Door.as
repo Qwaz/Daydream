@@ -29,11 +29,11 @@
 		}
 		
 		override protected function addedToStageHandler(e:Event):void {
-			Game.currentGame.mapManager.doorVector.push(this);
+			Game.currentGame.mapManager.map::doorVector.push(this);
 		}
 		
 		override protected function removedFromStageHandler(e:Event):void {
-			var targetVector:Vector.<Door> = Game.currentGame.mapManager.doorVector;
+			var targetVector:Vector.<Door> = Game.currentGame.mapManager.map::doorVector;
 			targetVector.splice(targetVector.indexOf(this), 1);
 		}
 	}

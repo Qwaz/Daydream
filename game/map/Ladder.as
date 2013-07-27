@@ -8,11 +8,11 @@
 		}
 		
 		override protected function addedToStageHandler(e:Event):void {
-			Game.currentGame.mapManager.ladderVector.push(this);
+			Game.currentGame.mapManager.map::ladderVector.push(this);
 		}
 		
 		override protected function removedFromStageHandler(e:Event):void {
-			var targetVector:Vector.<Ladder> = Game.currentGame.mapManager.ladderVector;
+			var targetVector:Vector.<Ladder> = Game.currentGame.mapManager.map::ladderVector;
 			targetVector.splice(targetVector.indexOf(this), 1);
 		}
 

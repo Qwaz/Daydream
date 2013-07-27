@@ -1,13 +1,15 @@
 ﻿package  game.core {
 	import flash.display.MovieClip;
+	import flash.events.Event;
 	import flash.events.KeyboardEvent;
-	import flash.ui.Keyboard;
 	import flash.events.MouseEvent;
+	import flash.ui.Keyboard;
 	import flash.ui.Mouse;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	import flash.geom.Point;
-	import flash.events.Event;
+	
+	import game.item.item;
 	
 	public class ItemManager extends MovieClip {
 		private var _slot1:int = 2;
@@ -21,7 +23,7 @@
 		private var item_exist:Vector.<MovieClip>;
 
 		public function ItemManager(){
-			item_exist = Game.currentGame.mapManager.itemVector;
+			item_exist = item::Game.currentGame.mapManager.itemVector;
 			var i:int;
 			for(i=0;i<10;i++)
 				itemArray[i] = new MovieClip();

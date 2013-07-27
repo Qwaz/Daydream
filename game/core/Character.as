@@ -6,9 +6,9 @@
 	import flash.ui.Keyboard;
 	import flash.geom.Point;
 	
-	import game.map.MapManager;
-	import game.map.Door;
+	import game.core.MapManager;
 	import game.core.ItemManager;
+	import game.map.Door;
 	import game.map.Ladder;
 	
 	public class Character extends MovieClip {
