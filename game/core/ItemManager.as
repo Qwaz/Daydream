@@ -93,19 +93,29 @@
 			explanation.visible = true;
 			explanation.x = slot1.x;
 			explanation.y = slot1.y + 25;
+			
 			name_txt.text = itemArray[_slot1].name;
 			exp_txt.text = itemArray[_slot1].exp;
-			if(itemArray[_slot1].exp.length > 15) explanation.width = 160+10;
-			else if(itemArray[_slot1].exp.length > itemArray[_slot1].name.length) explanation.width = itemArray[_slot1].exp.length*11+10;
-			else explanation.width = itemArray[_slot1].name.length*19;
+			
+			if(itemArray[_slot1].exp.length > 15)
+				explanation.width = 160+10;
+			else if(itemArray[_slot1].exp.length > itemArray[_slot1].name.length)
+				explanation.width = itemArray[_slot1].exp.length*11+10;
+			else
+				explanation.width = itemArray[_slot1].name.length*19;
+			
 			explanation.height = 17*(1+itemArray[_slot1].exp.length/15) + 40;
+			
 			exp_txt.width = explanation.width - 10;
 			exp_txt.height = 17*(2+itemArray[_slot1].exp.length/15);
+			
 			name_txt.x = slot1.x - name_txt.width/2;
 			name_txt.y = explanation.y + 10;
+			
 			exp_txt.x = slot1.x - explanation.width/2;
 			exp_txt.y = name_txt.y + 25;
-			name_txt.setTextFormat(name_format,0,name_txt.length);
+			name_txt.setTextFormat(name_format, 0, name_txt.length);
+			
 			addChild(name_txt);
 			addChild(exp_txt);
 		}

@@ -74,6 +74,8 @@
 			가만히 서 있을 때
 			********************/
 			if(this.state == STAY){
+				if(checkLadder()) return;
+				
 				if(Key.pressed(Keyboard.RIGHT) || Key.pressed(Keyboard.LEFT)){
 					this.state = WALK;
 				} else if(Key.pressed(JUMP_KEY)){
@@ -95,6 +97,8 @@
 			걸어다닐 때
 			********************/
 			} else if(this.state == WALK){
+				if(checkLadder()) return;
+				
 				var prevX:Number = this.x;
 				var prevY:Number = this.y;
 				
@@ -150,10 +154,7 @@
 			점프, 떨어질 때
 			********************/
 			} else if(this.state == FALL){
-				//사다리 오르기 처리
-				if(Key.pressed(Keyboard.UP) && map.hitTestLadder(localToGlobal(headPoint))){
-					this.state = LADDER;
-				}
+				if(checkLadder()) return;
 				
 				speedX *= FRICTION_X;
 				speedY += GRAVITY;
@@ -262,7 +263,11 @@
 			사다리를 타고 있을 때
 			********************/
 			} else if(this.state == LADDER){
-				if(Key.pressed(Keyboard.UP)){
+				if(Key.pressed(JUMP_KEY)){
+					this.speedX = 0;
+					this.speedY = 0;
+					this.state = FALL;
+				} else if(Key.pressed(Keyboard.UP)){
 					nextFrame();
 					this.y -= SMOOTH_GAP;
 					
@@ -292,6 +297,16 @@
 		private function removedFromStageHandler(e:Event):void {
 			removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
 			Key.dispose();
+		}
+		
+		private function checkLadder():Boolean {
+			//사다리 오르기 처리
+			if(Key.pressed(Keyboard.UP) && Game.currentGame.mapManager.hitTestLadder(localToGlobal(headPoint))){
+				this.state = LADDER;
+				return true;
+			}
+			
+			return false;
 		}
 	}
 }
