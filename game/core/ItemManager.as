@@ -23,7 +23,7 @@
 		private var item_exist:Vector.<MovieClip>;
 
 		public function ItemManager(){
-			item_exist = item::Game.currentGame.mapManager.itemVector;
+			item_exist = Game.currentGame.mapManager.item::itemVector;
 			var i:int;
 			for(i=0;i<10;i++)
 				itemArray[i] = new MovieClip();
