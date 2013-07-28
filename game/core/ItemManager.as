@@ -16,11 +16,12 @@
 		private var _slot1:int = 2;
 		private var _slot2:int = 3;
 		private var _upgrade:Boolean = true;
+		
 		private var name_txt:TextField = new TextField();
 		private var exp_txt:TextField = new TextField();
 		private var name_format:TextFormat = new TextFormat();
 		
-		private var itemArray:Array = new Array(10);
+		private var itemArray:Vector.<Object> = new Vector.<Object>;
 		private var item_exist:Vector.<MovieClip>;
 
 		public function ItemManager(){
@@ -28,7 +29,7 @@
 			
 			var i:int;
 			for(i=0;i<10;i++)
-				itemArray[i] = new MovieClip();
+				itemArray[i] = new Object();
 			
 			name_format.align = 'center';
 			name_format.size = 20;
@@ -128,36 +129,44 @@
 		
 		public function getItem(index:int):void
 		{
-			trace(item_exist);
 			if(_slot1==0){
 				_slot1 = item_exist[index].itemcode;
 				Game.currentGame.world.removeChild(item_exist[index]);
 				item_exist.splice(index, 1);
-			} else if(_slot1!=0 && _slot2!=0){
-				return;   //슬롯이 부족
-			} else if(_upgrade&&_slot2==0){
+			} else if(_upgrade && _slot2==0){
 				_slot2 = item_exist[index].itemcode;
 				Game.currentGame.world.removeChild(item_exist[index]);
 				
 				item_exist.splice(index, 1);
-			}
+			} else {
+				//슬롯 부족
+				return;
+			} 
 			refresh();
 		}
 		
 		private function throwItem(mapcode:int):void
 		{
-			var temp:MovieClip = new items();
-			temp.x = Game.currentGame.character.x;
-			temp.y = Game.currentGame.character.y-10;
+			var temp:MovieClip = new Items();
+			var charPoint:Point = new Point(Game.currentGame.character.x, Game.currentGame.character.y-10);
+			charPoint = Game.currentGame.world.globalToLocal(charPoint);
+			
+			temp.x = charPoint.x;
+			temp.y = charPoint.y;
 			temp.mapcode = mapcode;
-			if(_slot1!=0){
+			
+			if(_slot1 != 0){
 				temp.itemcode = _slot1;
 				_slot1 = 0;
 				temp.scaleX = temp.scaleY = itemArray[temp.itemcode].scale;
 				item_exist.push(temp);
 				placeItem(item_exist.length-1);
+				
+				if(_upgrade && _slot2 != 0)
+					switchSlot();
+					
 				refresh();
-			} else if(_upgrade&&_slot2!=0){
+			} else if(_upgrade && _slot2 != 0){
 				temp.itemcode = _slot2;
 				_slot2 = 0;
 				temp.scaleX = temp.scaleY = itemArray[temp.itemcode].scale;
@@ -204,6 +213,7 @@
 		{
 			if(_upgrade) slot2.visible = true;
 			else slot2.visible = false;
+			
 			this.slot1.items.gotoAndStop(_slot1+1);
 			this.slot2.items.gotoAndStop(_slot2+1);
 		}
