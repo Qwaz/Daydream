@@ -34,7 +34,7 @@
 		
 		private var _state:String;
 		
-		public var headPoint:Point, upFootPoint:Point, downFootPoint:Point, leftPoint:Point, rightPoint:Point, holdPoint:Point;
+		private var headPoint:Point, upFootPoint:Point, downFootPoint:Point, leftPoint:Point, rightPoint:Point, holdPoint:Point;
 		
 		private var speedX:Number=0;
 		private var speedY:Number=0;
