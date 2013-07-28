@@ -8,6 +8,7 @@
 	
 	import game.core.MapManager;
 	import game.core.ItemManager;
+	import game.event.GameEvent;
 	import game.map.Door;
 	import game.map.Ladder;
 	
@@ -40,9 +41,7 @@
 		
 		private var holding:Point;
 		
-		public function Character() {
-			Key.init();
-			
+		public function Character(){
 			headPoint = new Point(head.x, head.y);
 			upFootPoint = new Point(upFoot.x, upFoot.y);
 			downFootPoint = new Point(downFoot.x, downFoot.y);
@@ -53,7 +52,7 @@
 			
 			state = FALL;
 			
-			addEventListener(Event.ENTER_FRAME, enterFrameHandler);
+			Game.currentGame.addEventListener(GameEvent.INITED, initedHandler);
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			addEventListener(Event.REMOVED_FROM_STAGE, removedFromStageHandler);
 		}
@@ -85,11 +84,13 @@
 				} else if(Key.pressed(Keyboard.E)){
 					var door:Door = map.hitTestDoor(localToGlobal(downFootPoint));
 					var itemIndex:int = map.hitTestItem(Game.currentGame.character);
+					
 					if(door != null){
 						door.open();
 					}
+					
 					if(itemIndex != -1){
-						Game.currentGame.slot.getItem(itemIndex);
+						Game.currentGame.itemManager.getItem(itemIndex);
 					}
 					
 				}
@@ -160,6 +161,7 @@
 				speedY += GRAVITY;
 				
 				var rightCheck:Boolean, leftCheck:Boolean;
+				var tPoint:Point;
 				
 				var remainY:Number = speedY;
 				while(Math.abs(remainY) > 0){
@@ -177,13 +179,16 @@
 							speedY = 0;
 							state = STAY;
 							break;
+						//벽잡기
 						} else if(holding = map.hitTestPoint(this.holdRange)){
+							tPoint = Game.currentGame.world.localToGlobal(holding);
+							
 							if(this.scaleX > 0){
-								this.x = holding.x - holdPoint.x;
-								this.y = holding.y - holdPoint.y;
+								this.x = tPoint.x - holdPoint.x;
+								this.y = tPoint.y - holdPoint.y;
 							} else if(this.scaleX < 0){
-								this.x = holding.x + holdPoint.x;
-								this.y = holding.y - holdPoint.y;
+								this.x = tPoint.x + holdPoint.x;
+								this.y = tPoint.y - holdPoint.y;
 							}
 							this.state = HOLD;
 						}
@@ -257,8 +262,9 @@
 			매달린 상태, 사다리 등에서 올라갈 때
 			********************/
 			} else if(this.state == CLIMB){
-				this.x += (holding.x - this.x)*0.3;
-				this.y += (holding.y - this.y)*0.3;
+				tPoint = Game.currentGame.world.localToGlobal(holding);
+				this.x += (tPoint.x - this.x)*0.3;
+				this.y += (tPoint.y - this.y)*0.3;
 			/********************
 			사다리를 타고 있을 때
 			********************/
@@ -274,7 +280,7 @@
 					if(!map.hitTestLadder(localToGlobal(headPoint))){
 						this.speedX = 0;
 						this.speedY = 0;
-						holding = localToGlobal(headPoint);
+						holding = Game.currentGame.world.globalToLocal(this.localToGlobal(headPoint));
 						this.state = CLIMB;
 					}
 				} else if(Key.pressed(Keyboard.DOWN)){
@@ -290,15 +296,6 @@
 			}
 		}
 		
-		private function addedToStageHandler(e:Event):void {
-			Game.currentGame.character = this;
-		}
-		
-		private function removedFromStageHandler(e:Event):void {
-			removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
-			Key.dispose();
-		}
-		
 		private function checkLadder():Boolean {
 			//사다리 오르기 처리
 			if(Key.pressed(Keyboard.UP) && Game.currentGame.mapManager.hitTestLadder(localToGlobal(headPoint))){
@@ -307,6 +304,22 @@
 			}
 			
 			return false;
+		}
+		
+		private function initedHandler(e:GameEvent):void {
+			this.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
+		}
+		
+		private function addedToStageHandler(e:Event):void {
+			Game.currentGame.character = this;
+			
+			this.removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+		}
+		
+		private function removedFromStageHandler(e:Event):void {
+			this.removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
+			
+			this.removeEventListener(Event.REMOVED_FROM_STAGE, removedFromStageHandler);
 		}
 	}
 }

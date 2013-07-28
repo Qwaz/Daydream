@@ -5,13 +5,14 @@
 	import game.core.Game;
 	
 	public class HoldPoint extends MapObject {
+		
 		private var thisPoint:Point;
-
+		
 		public function HoldPoint() {
-			thisPoint = this.localToGlobal(new Point());
 		}
 		
 		override protected function addedToStageHandler(e:Event):void {
+			thisPoint = Game.currentGame.world.globalToLocal(this.localToGlobal(new Point()));
 			Game.currentGame.mapManager.map::holdPoints.push(thisPoint);
 		}
 		

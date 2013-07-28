@@ -79,7 +79,8 @@
 		
 		public function hitTestPoint(rect:DisplayObject):Point {
 			for each (var point:Point in map::holdPoints){
-				if(rect.hitTestPoint(point.x, point.y)){
+				var tPoint:Point = Game.currentGame.world.localToGlobal(point);
+				if(rect.hitTestPoint(tPoint.x, tPoint.y)){
 					return point;
 				}
 			}

@@ -9,6 +9,7 @@
 	import flash.text.TextFormat;
 	import flash.geom.Point;
 	
+	import game.event.GameEvent;
 	import game.item.item;
 	
 	public class ItemManager extends MovieClip {
@@ -24,6 +25,7 @@
 
 		public function ItemManager(){
 			item_exist = Game.currentGame.mapManager.item::itemVector;
+			
 			var i:int;
 			for(i=0;i<10;i++)
 				itemArray[i] = new MovieClip();
@@ -70,12 +72,9 @@
 			itemArray[8].exp = '무선으로 조종할 수 있는 조그만 자동차.';
 			itemArray[8].scale = 0.5;
 			
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, keydownHandler);
-			slot1.items.addEventListener(MouseEvent.MOUSE_OVER, mouseoverHandler);
-			slot1.items.addEventListener(MouseEvent.MOUSE_OUT, mouseoutHandler);
+			Game.currentGame.addEventListener(GameEvent.INITED, initedHandler);
 			this.addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
-			
-			item_refresh();
+			this.addEventListener(Event.REMOVED_FROM_STAGE, removedFromStageHandler);
 		}
 		
 		private function keydownHandler(e:KeyboardEvent):void
@@ -142,7 +141,7 @@
 				
 				item_exist.splice(index, 1);
 			}
-			item_refresh();
+			refresh();
 		}
 		
 		private function throwItem(mapcode:int):void
@@ -157,14 +156,14 @@
 				temp.scaleX = temp.scaleY = itemArray[temp.itemcode].scale;
 				item_exist.push(temp);
 				placeItem(item_exist.length-1);
-				item_refresh();
+				refresh();
 			} else if(_upgrade&&_slot2!=0){
 				temp.itemcode = _slot2;
 				_slot2 = 0;
 				temp.scaleX = temp.scaleY = itemArray[temp.itemcode].scale;
 				item_exist.push(temp);
 				placeItem(item_exist.length-1);
-				item_refresh();
+				refresh();
 			}
 		}
 		
@@ -177,7 +176,7 @@
 				temp = _slot1;
 				_slot1 = _slot2;
 				_slot2 = temp;
-				item_refresh();
+				refresh();
 				this.play();
 			}
 		}
@@ -192,7 +191,7 @@
 		public function upgrade():void
 		{
 			_upgrade = true;
-			item_refresh();
+			refresh();
 		}
 		
 		public function placeItem(target:int):void
@@ -201,7 +200,7 @@
 			item_exist[target].gotoAndStop(item_exist[target].itemcode+1);
 		}
 		
-		private function item_refresh():void
+		private function refresh():void
 		{
 			if(_upgrade) slot2.visible = true;
 			else slot2.visible = false;
@@ -209,10 +208,28 @@
 			this.slot2.items.gotoAndStop(_slot2+1);
 		}
 		
-		private function addedToStageHandler(e:Event):void {
-			Game.currentGame.slot = this;
+		private function initedHandler(e:GameEvent):void {
+			refresh();
+			
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, keydownHandler);
+			slot1.items.addEventListener(MouseEvent.MOUSE_OVER, mouseoverHandler);
+			slot1.items.addEventListener(MouseEvent.MOUSE_OUT, mouseoutHandler);
 		}
-
+		
+		private function addedToStageHandler(e:Event):void {
+			Game.currentGame.itemManager = this;
+			
+			this.removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+		}
+		
+		private function removedFromStageHandler(e:Event):void {
+			stage.removeEventListener(KeyboardEvent.KEY_DOWN, keydownHandler);
+			slot1.items.removeEventListener(MouseEvent.MOUSE_OVER, mouseoverHandler);
+			slot1.items.removeEventListener(MouseEvent.MOUSE_OUT, mouseoutHandler);
+			
+			this.removeEventListener(Event.REMOVED_FROM_STAGE, removedFromStageHandler);
+		}
+		
 	}
 	
 }
