@@ -11,20 +11,20 @@
 		
 		map var wallVector:Vector.<Wall>;
 		map var panelVector:Vector.<Panel>;
-		map var doorVector:Vector.<Door>;
 		map var ladderVector:Vector.<Ladder>;
-		item var itemVector:Vector.<MovieClip>;
 		
 		map var holdPoints:Vector.<Point>;
+			
+		map var interactiveVector:Vector.<InteractiveObject>;
 
 		public function MapManager() {
 			map::wallVector = new Vector.<Wall>;
 			map::panelVector = new Vector.<Panel>;
-			map::doorVector = new Vector.<Door>;
 			map::ladderVector = new Vector.<Ladder>;
-			item::itemVector = new Vector.<MovieClip>;
 			
 			map::holdPoints = new Vector.<Point>;
+			
+			map::interactiveVector = new Vector.<InteractiveObject>;
 		}
 		
 		public function hitTestWall(target:Point):Boolean {
@@ -47,16 +47,6 @@
 			return false;
 		}
 		
-		public function hitTestDoor(target:Point):Door {
-			for each (var door:Door in map::doorVector){
-				if(door.hitTestPoint(target.x, target.y, false)){
-					return door;
-				}
-			}
-			
-			return null;
-		}
-		
 		public function hitTestLadder(target:Point):Boolean {
 			for each (var ladder:Ladder in map::ladderVector){
 				if(ladder.hitTestPoint(target.x, target.y, false)){
@@ -65,16 +55,6 @@
 			}
 			
 			return false;
-		}
-		
-		public function hitTestItem(target:MovieClip):int {
-			for (var i=0; i<item::itemVector.length; i++){
-				if(item::itemVector[i].hitTestObject(target)){
-					return i;
-				}
-			}
-			
-			return -1;
 		}
 		
 		public function hitTestPoint(rect:DisplayObject):Point {
@@ -86,6 +66,29 @@
 			}
 			
 			return null;
+		}
+		
+		public function hitTestInteractive(rect:DisplayObject):InteractiveObject {
+			var nearest:InteractiveObject;
+			
+			var character:Character = Game.currentGame.character;
+			var charPoint:Point = new Point(character.x, character.y);
+			charPoint = Game.currentGame.world.globalToLocal(charPoint);
+			
+			for each (var interactive:InteractiveObject in map::interactiveVector){
+				interactive.emphasize(false);
+				if(interactive.available() && rect.hitTestObject(interactive)){
+					if(nearest == null || Math.abs(nearest.x-charPoint.x) > Math.abs(interactive.x-charPoint.x)){
+						nearest = interactive;
+					}
+				}
+			}
+			
+			if(nearest){
+				nearest.emphasize(true);
+			}
+			
+			return nearest;
 		}
 	}
 }

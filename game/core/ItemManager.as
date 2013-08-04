@@ -1,18 +1,30 @@
 ﻿package  game.core {
 	import flash.display.MovieClip;
+	
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
+	
 	import flash.ui.Keyboard;
 	import flash.ui.Mouse;
+	
 	import flash.text.TextField;
+	import flash.text.TextFieldType;
+	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
+	
 	import flash.geom.Point;
 	
 	import game.event.GameEvent;
 	import game.item.item;
+	import flash.text.TextFormatAlign;
+	import game.map.DroppedItem;
 	
 	public class ItemManager extends MovieClip {
+		private static const
+		SWITCH_KEY:uint = Keyboard.C,
+		THROW_KEY:uint = Keyboard.Q;
+		
 		private var _slot1:int = 2;
 		private var _slot2:int = 3;
 		private var _upgrade:Boolean = true;
@@ -22,22 +34,21 @@
 		private var name_format:TextFormat = new TextFormat();
 		
 		private var itemArray:Vector.<Object> = new Vector.<Object>;
-		private var item_exist:Vector.<MovieClip>;
 
 		public function ItemManager(){
-			item_exist = Game.currentGame.mapManager.item::itemVector;
-			
 			var i:int;
 			for(i=0;i<10;i++)
 				itemArray[i] = new Object();
 			
-			name_format.align = 'center';
+			name_format.align = TextFormatAlign.CENTER;
 			name_format.size = 20;
 			name_format.bold = true;
-			name_txt.type = 'dynamic';
+			
+			name_txt.type = TextFieldType.DYNAMIC;
 			name_txt.mouseEnabled = false;
-			name_txt.autoSize = 'center';
-			exp_txt.type = 'dynamic';
+			name_txt.autoSize = TextFieldAutoSize.CENTER;
+			
+			exp_txt.type = TextFieldType.DYNAMIC;
 			exp_txt.mouseEnabled = false;
 			exp_txt.wordWrap = true;
 			
@@ -80,11 +91,11 @@
 		
 		private function keydownHandler(e:KeyboardEvent):void
 		{
-			if(e.keyCode == Keyboard.C){
+			if(e.keyCode == SWITCH_KEY){
 				if(this.currentFrame == 1) switchSlot();
 			}
-			else if(e.keyCode == Keyboard.Q){
-				throwItem(3);
+			else if(e.keyCode == THROW_KEY && Game.currentGame.character.getState() == Character.STAY){
+				throwItem();
 			}
 		}
 		
@@ -127,51 +138,49 @@
 			explanation.visible = false;
 		}
 		
-		public function getItem(index:int):void
+		public function getItem(itemCode:int):Boolean
 		{
 			if(_slot1==0){
-				_slot1 = item_exist[index].itemcode;
-				Game.currentGame.world.removeChild(item_exist[index]);
-				item_exist.splice(index, 1);
+				_slot1 = itemCode;
 			} else if(_upgrade && _slot2==0){
-				_slot2 = item_exist[index].itemcode;
-				Game.currentGame.world.removeChild(item_exist[index]);
-				
-				item_exist.splice(index, 1);
+				_slot2 = itemCode;
 			} else {
 				//슬롯 부족
-				return;
-			} 
+				return false;
+			}
 			refresh();
+			
+			return true;
 		}
 		
-		private function throwItem(mapcode:int):void
+		private function throwItem():void
 		{
-			var temp:MovieClip = new Items();
-			var charPoint:Point = new Point(Game.currentGame.character.x, Game.currentGame.character.y-10);
-			charPoint = Game.currentGame.world.globalToLocal(charPoint);
-			
-			temp.x = charPoint.x;
-			temp.y = charPoint.y;
-			temp.mapcode = mapcode;
+			var mapCode:int = Game.currentGame.world.currentFrame;
+			var itemCode:int = -1;
 			
 			if(_slot1 != 0){
-				temp.itemcode = _slot1;
+				itemCode = _slot1;
 				_slot1 = 0;
-				temp.scaleX = temp.scaleY = itemArray[temp.itemcode].scale;
-				item_exist.push(temp);
-				placeItem(item_exist.length-1);
 				
 				if(_upgrade && _slot2 != 0)
 					switchSlot();
-					
-				refresh();
 			} else if(_upgrade && _slot2 != 0){
-				temp.itemcode = _slot2;
+				itemCode = _slot2;
 				_slot2 = 0;
-				temp.scaleX = temp.scaleY = itemArray[temp.itemcode].scale;
-				item_exist.push(temp);
-				placeItem(item_exist.length-1);
+			}
+			
+			if(itemCode != -1){
+				var dropped:DroppedItem = new DroppedItem(mapCode, itemCode);
+				var charPoint:Point = new Point(Game.currentGame.character.x, Game.currentGame.character.y-10);
+				charPoint = Game.currentGame.world.globalToLocal(charPoint);
+				
+				dropped.x = charPoint.x;
+				dropped.y = charPoint.y;
+				
+				dropped.scaleX = dropped.scaleY = itemArray[itemCode].scale;
+				
+				Game.currentGame.world.addChild(dropped);
+				
 				refresh();
 			}
 		}
@@ -203,12 +212,6 @@
 			refresh();
 		}
 		
-		public function placeItem(target:int):void
-		{
-			Game.currentGame.world.addChild(item_exist[target]);
-			item_exist[target].gotoAndStop(item_exist[target].itemcode+1);
-		}
-		
 		private function refresh():void
 		{
 			if(_upgrade) slot2.visible = true;
@@ -228,6 +231,9 @@
 		
 		private function addedToStageHandler(e:Event):void {
 			Game.currentGame.itemManager = this;
+			
+			explanation.mouseEnabled = false;
+			explanation.visible = false;
 			
 			this.removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 		}

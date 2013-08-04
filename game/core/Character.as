@@ -11,9 +11,10 @@
 	import game.event.GameEvent;
 	import game.map.Door;
 	import game.map.Ladder;
+	import game.map.InteractiveObject;
 	
 	public class Character extends MovieClip {
-		private static const
+		public static const
 		INTERACT:String="interact",
 		STAY:String="stay",
 		WALK:String="walk",
@@ -23,7 +24,8 @@
 		LADDER:String="ladder";
 		
 		private static const
-		JUMP_KEY:uint = Keyboard.SPACE;
+		JUMP_KEY:uint = Keyboard.SPACE,
+		INTERACTION_KEY:uint = Keyboard.E;
 		
 		private static const
 		WALK_SPEED:Number = 5,
@@ -57,6 +59,10 @@
 			addEventListener(Event.REMOVED_FROM_STAGE, removedFromStageHandler);
 		}
 		
+		public function getState():String {
+			return _state;
+		}
+		
 		private function get state():String {
 			return _state;
 		}
@@ -68,6 +74,7 @@
 		
 		private function enterFrameHandler(e:Event):void {
 			var map:MapManager = Game.currentGame.mapManager;
+			var interactive:InteractiveObject = map.hitTestInteractive(this);
 			
 			/********************
 			가만히 서 있을 때
@@ -81,18 +88,10 @@
 					speedX = 0;
 					speedY = -JUMP_POWER;
 					this.state = FALL;
-				} else if(Key.pressed(Keyboard.E)){
-					var door:Door = map.hitTestDoor(localToGlobal(downFootPoint));
-					var itemIndex:int = map.hitTestItem(Game.currentGame.character);
-					
-					if(door != null){
-						door.open();
+				} else if(Key.pressed(INTERACTION_KEY)){
+					if(interactive != null){
+						interactive.interact();
 					}
-					
-					if(itemIndex != -1){
-						Game.currentGame.itemManager.getItem(itemIndex);
-					}
-					
 				}
 			/********************
 			걸어다닐 때

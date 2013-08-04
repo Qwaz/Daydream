@@ -4,7 +4,7 @@
 	
 	import game.core.Game;
 	
-	public class Door extends MapObject {
+	public class Door extends InteractiveObject {
 		
 		private var opened:Boolean = false;
 		private var locked:Boolean = false;
@@ -16,7 +16,7 @@
 			this.locked = false;
 		}
 		
-		public function open():void {
+		override public function interact():void {
 			if(locked){
 				//if(/*잠금해제조건*/) unlock();
 				return;
@@ -26,15 +26,6 @@
 				opened = true;
 				MovieClip(this.parent).play();
 			}
-		}
-		
-		override protected function addedToStageHandler(e:Event):void {
-			Game.currentGame.mapManager.map::doorVector.push(this);
-		}
-		
-		override protected function removedFromStageHandler(e:Event):void {
-			var targetVector:Vector.<Door> = Game.currentGame.mapManager.map::doorVector;
-			targetVector.splice(targetVector.indexOf(this), 1);
 		}
 	}
 	
