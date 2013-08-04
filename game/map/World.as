@@ -17,16 +17,16 @@
 		private function enterFrameHandler(e:Event):void {
 			var character:Character = Game.currentGame.character;
 			
-			var dx:Number = character.x-stage.stageWidth/2;
-			var dy:Number = character.y-stage.stageHeight/2;
+			var dx:Number = this.x+character.relX-stage.stageWidth/2;
+			var dy:Number = this.y+character.relY-stage.stageHeight/2;
 			
 			const MAP_SPEED:Number = 0.01;
 			
 			this.x -= dx*MAP_SPEED;
 			this.y -= dy*MAP_SPEED;
 			
-			character.x -= dx*MAP_SPEED;
-			character.y -= dy*MAP_SPEED;
+			character.x = this.x+character.relX;
+			character.y = this.y+character.relY;
 		}
 		
 		private function initedHandler(e:GameEvent):void {

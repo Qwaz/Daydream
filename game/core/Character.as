@@ -38,6 +38,8 @@
 		
 		private var headPoint:Point, upFootPoint:Point, downFootPoint:Point, leftPoint:Point, rightPoint:Point, holdPoint:Point;
 		
+		public var relX:Number, relY:Number;
+		
 		private var speedX:Number=0;
 		private var speedY:Number=0;
 		
@@ -99,19 +101,19 @@
 			} else if(this.state == WALK){
 				if(checkLadder()) return;
 				
-				var prevX:Number = this.x;
-				var prevY:Number = this.y;
+				var prevX:Number = this.relX;
+				var prevY:Number = this.relY;
 				
 				if(Key.pressed(Keyboard.RIGHT)){
-					this.x += WALK_SPEED;
+					this.relX += WALK_SPEED;
 					if(map.hitTestWall(localToGlobal(rightPoint))){
-						this.x -= WALK_SPEED;
+						this.relX -= WALK_SPEED;
 					}
 					this.scaleX = 1;
 				} else if(Key.pressed(Keyboard.LEFT)){
-					this.x -= WALK_SPEED;
+					this.relX -= WALK_SPEED;
 					if(map.hitTestWall(localToGlobal(leftPoint))){
-						this.x += WALK_SPEED;
+						this.relX += WALK_SPEED;
 					}
 					this.scaleX = -1;
 				}
@@ -119,10 +121,10 @@
 				if(!map.hitTestWall(localToGlobal(downFootPoint)) && !map.hitTestPanel(localToGlobal(downFootPoint))){
 					downFootPoint.y += SMOOTH_GAP;
 					if(map.hitTestWall(localToGlobal(downFootPoint)) || map.hitTestPanel(localToGlobal(downFootPoint))){
-						this.y += SMOOTH_GAP;
+						this.relY += SMOOTH_GAP;
 					} else {
 						speedY = 0;
-						speedX = this.x-prevX;
+						speedX = this.relX-prevX;
 						this.state = FALL;
 					}
 					downFootPoint.y -= SMOOTH_GAP;
@@ -131,22 +133,22 @@
 				}
 				
 				while(map.hitTestWall(localToGlobal(upFootPoint)) || map.hitTestPanel(localToGlobal(upFootPoint))){
-					this.y -= downFootPoint.y-upFootPoint.y;
+					this.relY -= downFootPoint.y-upFootPoint.y;
 					
-					if(this.y < prevY-SMOOTH_GAP){
-						this.y = prevY;
-						this.x = prevX;
+					if(this.relY < prevY-SMOOTH_GAP){
+						this.relY = prevY;
+						this.relX = prevX;
 						break;
 					}
 				}
 				
-				if(this.y < prevY){
-					this.x -= (this.x-prevX)*(prevY-this.y)/SMOOTH_GAP;
+				if(this.relY < prevY){
+					this.relX -= (this.relX-prevX)*(prevY-this.relY)/SMOOTH_GAP;
 				}
 				
 				
 				if(Key.pressed(JUMP_KEY)){
-					speedX = this.x-prevX;
+					speedX = this.relX-prevX;
 					speedY = -JUMP_POWER;
 					this.state = FALL;
 				}
@@ -167,10 +169,10 @@
 					if(speedY > 0){
 						//떨어질 때
 						if(remainY > SMOOTH_GAP/2){
-							this.y += SMOOTH_GAP/2;
+							this.relY += SMOOTH_GAP/2;
 							remainY -= SMOOTH_GAP/2;
 						} else {
-							this.y += remainY;
+							this.relY += remainY;
 							remainY = 0;
 						}
 						
@@ -183,21 +185,21 @@
 							tPoint = Game.currentGame.world.localToGlobal(holding);
 							
 							if(this.scaleX > 0){
-								this.x = tPoint.x - holdPoint.x;
-								this.y = tPoint.y - holdPoint.y;
+								this.relX = tPoint.x - holdPoint.x - Game.currentGame.world.x;
+								this.relY = tPoint.y - holdPoint.y - Game.currentGame.world.y;
 							} else if(this.scaleX < 0){
-								this.x = tPoint.x + holdPoint.x;
-								this.y = tPoint.y - holdPoint.y;
+								this.relX = tPoint.x + holdPoint.x - Game.currentGame.world.x;
+								this.relY = tPoint.y - holdPoint.y - Game.currentGame.world.y;
 							}
 							this.state = HOLD;
 						}
 					} else {
 						//점프중
 						if(remainY < -SMOOTH_GAP/2){
-							this.y -= SMOOTH_GAP/2;
+							this.relY -= SMOOTH_GAP/2;
 							remainY += SMOOTH_GAP/2;
 						} else {
-							this.y += remainY;
+							this.relY += remainY;
 							remainY = 0;
 						}
 						if(map.hitTestWall(localToGlobal(headPoint))){
@@ -216,15 +218,15 @@
 					}
 					
 					if(rightCheck){
-						this.x -= WALK_SPEED/4;
+						this.relX -= WALK_SPEED/4;
 					}
 					
 					if(leftCheck){
-						this.x += WALK_SPEED/4;
+						this.relX += WALK_SPEED/4;
 					}
 				}
 				
-				this.x += speedX;
+				this.relX += speedX;
 				
 				if(this.scaleX > 0){
 					rightCheck = map.hitTestWall(localToGlobal(rightPoint));
@@ -235,7 +237,7 @@
 				}
 				
 				if((speedX > 0 && rightCheck) || (speedX < 0 && leftCheck)){
-					this.x -= speedX;
+					this.relX -= speedX;
 				}
 			/********************
 			매달려 있을 때
@@ -262,8 +264,11 @@
 			********************/
 			} else if(this.state == CLIMB){
 				tPoint = Game.currentGame.world.localToGlobal(holding);
-				this.x += (tPoint.x - this.x)*0.3;
-				this.y += (tPoint.y - this.y)*0.3;
+				tPoint.x -= Game.currentGame.world.x;
+				tPoint.y -= Game.currentGame.world.y;
+				
+				this.relX += (tPoint.x - this.relX)*0.3;
+				this.relY += (tPoint.y - this.relY)*0.3;
 			/********************
 			사다리를 타고 있을 때
 			********************/
@@ -274,7 +279,7 @@
 					this.state = FALL;
 				} else if(Key.pressed(Keyboard.UP)){
 					nextFrame();
-					this.y -= SMOOTH_GAP;
+					this.relY -= SMOOTH_GAP/2;
 					
 					if(!map.hitTestLadder(localToGlobal(headPoint))){
 						this.speedX = 0;
@@ -284,7 +289,7 @@
 					}
 				} else if(Key.pressed(Keyboard.DOWN)){
 					nextFrame();
-					this.y += SMOOTH_GAP;
+					this.relY += SMOOTH_GAP/2;
 					
 					if(!map.hitTestLadder(localToGlobal(downFootPoint))){
 						this.speedX = 0;
@@ -305,7 +310,15 @@
 			return false;
 		}
 		
+		override public function localToGlobal(point:Point):Point {
+			this.x = Game.currentGame.world.x+this.relX;
+			this.y = Game.currentGame.world.y+this.relY;
+			return super.localToGlobal(point);
+		}
+		
 		private function initedHandler(e:GameEvent):void {
+			relX = stage.stageWidth/2;
+			relY = stage.stageHeight/2;
 			this.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
 		}
 		
