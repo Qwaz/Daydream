@@ -13,6 +13,7 @@
 		public static var currentGame:Game;
 		
 		private var _character:Character;
+		private var _textBox:TextBox;
 		private var _world:World;
 		
 		private var _mapManager:MapManager;
@@ -27,7 +28,7 @@
 		}
 		
 		private function checkInit():void {
-			if(_character && _world && _itemManager){
+			if(_character && _world && _itemManager && _textBox){
 				Key.init();
 				_world.gotoAndStop(3);
 				this.dispatchEvent(new GameEvent(GameEvent.INITED));
@@ -53,6 +54,19 @@
 				checkInit();
 			} else {
 				throw new IllegalOperationError("이미 월드가 초기화되었습니다");
+			}
+		}
+		
+		public function get textBox():TextBox {
+			return _textBox;
+		}
+		
+		public function set textBox(textBox:TextBox):void {
+			if(_textBox == null){
+				_textBox = textBox;
+				checkInit();
+			} else {
+				throw new IllegalOperationError("이미 텍스트박스가 초기화되었습니다.");
 			}
 		}
 		

@@ -31,6 +31,8 @@
 		
 		private function initedHandler(e:GameEvent):void {
 			this.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
+			
+			Game.currentGame.removeEventListener(GameEvent.INITED, initedHandler);
 		}
 		
 		private function addedToStageHandler(e:Event):void {

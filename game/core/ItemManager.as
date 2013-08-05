@@ -227,6 +227,8 @@
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, keydownHandler);
 			slot1.items.addEventListener(MouseEvent.MOUSE_OVER, mouseoverHandler);
 			slot1.items.addEventListener(MouseEvent.MOUSE_OUT, mouseoutHandler);
+			
+			Game.currentGame.removeEventListener(GameEvent.INITED, initedHandler);
 		}
 		
 		private function addedToStageHandler(e:Event):void {

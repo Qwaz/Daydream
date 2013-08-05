@@ -38,6 +38,7 @@
 		
 		private var headPoint:Point, upFootPoint:Point, downFootPoint:Point, leftPoint:Point, rightPoint:Point, holdPoint:Point;
 		
+		private var lastState:String;
 		public var relX:Number, relY:Number;
 		
 		private var speedX:Number=0;
@@ -70,8 +71,23 @@
 		}
 		
 		private function set state(t:String):void {
-			this.gotoAndPlay(t);
+			if(t == INTERACT){
+				lastState = _state;
+				stop();
+			} else if(_state == INTERACT){
+				play();
+			} else {
+				this.gotoAndPlay(t);
+			}
 			_state = t;
+		}
+		
+		public function startInteract():void {
+			this.state = INTERACT;
+		}
+		
+		public function endInteract():void {
+			this.state = lastState;
 		}
 		
 		private function enterFrameHandler(e:Event):void {
@@ -320,6 +336,8 @@
 			relX = stage.stageWidth/2;
 			relY = stage.stageHeight/2;
 			this.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
+			
+			Game.currentGame.removeEventListener(GameEvent.INITED, initedHandler);
 		}
 		
 		private function addedToStageHandler(e:Event):void {

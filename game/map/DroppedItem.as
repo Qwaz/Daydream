@@ -21,6 +21,7 @@
 		
 		override public function interact():void {
 			if(Game.currentGame.itemManager.getItem(_itemCode)){
+				Game.currentGame.textBox.textBaker.push(_itemCode+"번 아이템을 획득했습니다.");
 				this.parent.removeChild(this);
 			}
 		}
