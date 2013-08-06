@@ -4,7 +4,8 @@
 	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
 	
-	import game.item.item;
+	import game.core.Character;
+	import game.event.MapEvent;
 	import game.map.*;
 	
 	public class MapManager {
@@ -25,6 +26,20 @@
 			_holdPoints = new Vector.<Point>;
 			
 			_interactiveVector = new Vector.<InteractiveObject>;
+		}
+		
+		public function moveMap(destMap:int, destX:Number, destY:Number){
+			Game.currentGame.world.gotoAndStop(destMap);
+			Object(Game.currentGame.world.parent).shade.gotoAndPlay(2);
+			
+			var character:Character = Game.currentGame.character;
+			character.relX = destX;
+			character.relY = destY;
+			
+			character.startFall();
+			
+			var mapEvent:MapEvent = new MapEvent(MapEvent.MOVE_MAP);
+			Game.currentGame.world.dispatchEvent(mapEvent);
 		}
 		
 		public function hitTestWall(target:Point):Boolean {

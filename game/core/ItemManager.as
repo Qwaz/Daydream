@@ -16,7 +16,6 @@
 	import flash.geom.Point;
 	
 	import game.event.GameEvent;
-	import game.item.item;
 	import flash.text.TextFormatAlign;
 	import game.map.DroppedItem;
 	

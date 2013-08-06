@@ -88,6 +88,10 @@
 			this.state = lastState;
 		}
 		
+		public function startFall():void {
+			this.state = FALL;
+		}
+		
 		private function enterFrameHandler(e:Event):void {
 			var map:MapManager = Game.currentGame.mapManager;
 			var interactive:InteractiveObject = map.hitTestInteractive(this);
