@@ -9,9 +9,7 @@
 	import game.core.MapManager;
 	import game.core.ItemManager;
 	import game.event.GameEvent;
-	import game.map.Door;
-	import game.map.Ladder;
-	import game.map.InteractiveObject;
+	import game.map.*;
 	
 	public class Character extends MovieClip {
 		public static const
@@ -44,7 +42,7 @@
 		private var speedX:Number=0;
 		private var speedY:Number=0;
 		
-		private var holding:Point;
+		private var lastHold:Point, lastPanel:Panel;
 		
 		public function Character(){
 			headPoint = new Point(head.x, head.y);
@@ -104,7 +102,12 @@
 					this.state = WALK;
 				} else if(Key.pressed(JUMP_KEY)){
 					speedX = 0;
-					speedY = -JUMP_POWER;
+					if(Key.pressed(Keyboard.DOWN)){
+						speedY = 0;
+					} else {
+						speedY = -JUMP_POWER;
+						lastPanel = null;
+					}
 					this.state = FALL;
 				} else if(Key.pressed(INTERACTION_KEY)){
 					if(interactive != null){
@@ -136,7 +139,8 @@
 				
 				if(!map.hitTestWall(localToGlobal(downFootPoint)) && !map.hitTestPanel(localToGlobal(downFootPoint))){
 					downFootPoint.y += SMOOTH_GAP;
-					if(map.hitTestWall(localToGlobal(downFootPoint)) || map.hitTestPanel(localToGlobal(downFootPoint))){
+					lastPanel = map.hitTestPanel(localToGlobal(downFootPoint));
+					if(map.hitTestWall(localToGlobal(downFootPoint)) || lastPanel!=null){
 						this.relY += SMOOTH_GAP;
 					} else {
 						speedY = 0;
@@ -165,7 +169,12 @@
 				
 				if(Key.pressed(JUMP_KEY)){
 					speedX = this.relX-prevX;
-					speedY = -JUMP_POWER;
+					if(Key.pressed(Keyboard.DOWN)){
+						speedY = 0;
+					} else {
+						speedY = -JUMP_POWER;
+						lastPanel = null;
+					}
 					this.state = FALL;
 				}
 			/********************
@@ -192,13 +201,15 @@
 							remainY = 0;
 						}
 						
-						if(map.hitTestWall(localToGlobal(downFootPoint)) || map.hitTestPanel(localToGlobal(downFootPoint))){
+						var tmpLastPanel:Panel = map.hitTestPanel(localToGlobal(downFootPoint), lastPanel);
+						if(map.hitTestWall(localToGlobal(downFootPoint)) || tmpLastPanel){
 							speedY = 0;
 							state = STAY;
+							lastPanel = tmpLastPanel;
 							break;
 						//벽잡기
-						} else if(holding = map.hitTestPoint(this.holdRange)){
-							tPoint = Game.currentGame.world.localToGlobal(holding);
+						} else if(lastHold = map.hitTestPoint(this.holdRange)){
+							tPoint = Game.currentGame.world.localToGlobal(lastHold);
 							
 							if(this.scaleX > 0){
 								this.relX = tPoint.x - holdPoint.x - Game.currentGame.world.x;
@@ -279,7 +290,7 @@
 			매달린 상태, 사다리 등에서 올라갈 때
 			********************/
 			} else if(this.state == CLIMB){
-				tPoint = Game.currentGame.world.localToGlobal(holding);
+				tPoint = Game.currentGame.world.localToGlobal(lastHold);
 				tPoint.x -= Game.currentGame.world.x;
 				tPoint.y -= Game.currentGame.world.y;
 				
@@ -300,7 +311,7 @@
 					if(!map.hitTestLadder(localToGlobal(headPoint))){
 						this.speedX = 0;
 						this.speedY = 0;
-						holding = Game.currentGame.world.globalToLocal(this.localToGlobal(headPoint));
+						lastHold = Game.currentGame.world.globalToLocal(this.localToGlobal(headPoint));
 						this.state = CLIMB;
 					}
 				} else if(Key.pressed(Keyboard.DOWN)){

@@ -9,26 +9,26 @@
 	
 	public class MapManager {
 		
-		map var wallVector:Vector.<Wall>;
-		map var panelVector:Vector.<Panel>;
-		map var ladderVector:Vector.<Ladder>;
+		private var _wallVector:Vector.<Wall>;
+		private var _panelVector:Vector.<Panel>;
+		private var _ladderVector:Vector.<Ladder>;
 		
-		map var holdPoints:Vector.<Point>;
+		private var _holdPoints:Vector.<Point>;
 			
-		map var interactiveVector:Vector.<InteractiveObject>;
+		private var _interactiveVector:Vector.<InteractiveObject>;
 
 		public function MapManager() {
-			map::wallVector = new Vector.<Wall>;
-			map::panelVector = new Vector.<Panel>;
-			map::ladderVector = new Vector.<Ladder>;
+			_wallVector = new Vector.<Wall>;
+			_panelVector = new Vector.<Panel>;
+			_ladderVector = new Vector.<Ladder>;
 			
-			map::holdPoints = new Vector.<Point>;
+			_holdPoints = new Vector.<Point>;
 			
-			map::interactiveVector = new Vector.<InteractiveObject>;
+			_interactiveVector = new Vector.<InteractiveObject>;
 		}
 		
 		public function hitTestWall(target:Point):Boolean {
-			for each (var wall:Wall in map::wallVector){
+			for each (var wall:Wall in _wallVector){
 				if(wall.hitTestPoint(target.x, target.y, true)){
 					return true;
 				}
@@ -37,18 +37,18 @@
 			return false;
 		}
 		
-		public function hitTestPanel(target:Point):Boolean {
-			for each (var panel:Panel in map::panelVector){
-				if(panel.hitTestPoint(target.x, target.y, false)){
-					return true;
+		public function hitTestPanel(target:Point, ignore:Panel=null):Panel {
+			for each (var panel:Panel in _panelVector){
+				if(panel != ignore && panel.hitTestPoint(target.x, target.y, false)){
+					return panel;
 				}
 			}
 			
-			return false;
+			return null;
 		}
 		
 		public function hitTestLadder(target:Point):Boolean {
-			for each (var ladder:Ladder in map::ladderVector){
+			for each (var ladder:Ladder in _ladderVector){
 				if(ladder.hitTestPoint(target.x, target.y, false)){
 					return true;
 				}
@@ -58,7 +58,7 @@
 		}
 		
 		public function hitTestPoint(rect:DisplayObject):Point {
-			for each (var point:Point in map::holdPoints){
+			for each (var point:Point in _holdPoints){
 				var tPoint:Point = Game.currentGame.world.localToGlobal(point);
 				if(rect.hitTestPoint(tPoint.x, tPoint.y)){
 					return point;
@@ -75,7 +75,7 @@
 			var charPoint:Point = new Point(character.x, character.y);
 			charPoint = Game.currentGame.world.globalToLocal(charPoint);
 			
-			for each (var interactive:InteractiveObject in map::interactiveVector){
+			for each (var interactive:InteractiveObject in _interactiveVector){
 				interactive.emphasize(false);
 				if(interactive.available() && rect.hitTestObject(interactive)){
 					if(nearest == null || Math.abs(nearest.x-charPoint.x) > Math.abs(interactive.x-charPoint.x)){
@@ -89,6 +89,26 @@
 			}
 			
 			return nearest;
+		}
+		
+		map function get wallVector():Vector.<Wall> {
+			return _wallVector;
+		}
+		
+		map function get panelVector():Vector.<Panel> {
+			return _panelVector;
+		}
+		
+		map function get ladderVector():Vector.<Ladder> {
+			return _ladderVector;
+		}
+		
+		map function get holdPoints():Vector.<Point> {
+			return _holdPoints;
+		}
+		
+		map function get interactiveVector():Vector.<InteractiveObject> {
+			return _interactiveVector;
 		}
 	}
 }

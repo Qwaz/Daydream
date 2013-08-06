@@ -1,8 +1,8 @@
 ﻿package game.core {
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import flash.events.MouseEvent;
 	import flash.events.KeyboardEvent;
+	import flash.ui.Keyboard;
 	
 	import game.event.GameEvent;
 	
@@ -41,19 +41,20 @@
 			_textBaker.next();
 		}
 		
-		private function nextHandler(e:Event):void {
-			if(this.visible == true){
+		private function keyDownHandler(e:KeyboardEvent):void {
+			if(this.visible == true && e.keyCode == Keyboard.SPACE){
 				_textBaker.next();
 			}
 		}
 		
 		private function initedHandler(e:GameEvent):void {
+			textField.text = "";
+			
 			_textBaker = new TextBaker(textField);
 			_textBaker.addEventListener(StateChangeEvent.STATE_CHANGE, stateChangeHandler);
 			_textBaker.addEventListener(TextBakerEvent.TEXT_PUSHED, textPushedHandler);
 			
-			stage.addEventListener(MouseEvent.CLICK, nextHandler);
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, nextHandler);
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
 			
 			Game.currentGame.removeEventListener(GameEvent.INITED, initedHandler);
 		}
@@ -68,8 +69,7 @@
 			_textBaker.removeEventListener(StateChangeEvent.STATE_CHANGE, stateChangeHandler);
 			_textBaker.removeEventListener(TextBakerEvent.TEXT_PUSHED, textPushedHandler);
 			
-			stage.removeEventListener(MouseEvent.CLICK, nextHandler);
-			stage.removeEventListener(KeyboardEvent.KEY_DOWN, nextHandler);
+			stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
 			
 			removeEventListener(Event.REMOVED_FROM_STAGE, removedFromStageHandler);
 		}
