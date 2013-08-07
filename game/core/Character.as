@@ -106,7 +106,7 @@
 					this.state = WALK;
 				} else if(Key.pressed(JUMP_KEY)){
 					speedX = 0;
-					if(Key.pressed(Keyboard.DOWN)){
+					if(Key.pressed(Keyboard.DOWN) && lastPanel){
 						speedY = 0;
 					} else {
 						speedY = -JUMP_POWER;
@@ -173,7 +173,7 @@
 				
 				if(Key.pressed(JUMP_KEY)){
 					speedX = this.relX-prevX;
-					if(Key.pressed(Keyboard.DOWN)){
+					if(Key.pressed(Keyboard.DOWN) && lastPanel){
 						speedY = 0;
 					} else {
 						speedY = -JUMP_POWER;
