@@ -36,7 +36,7 @@
 		
 		public function hitTestPanel(target:Point):Boolean {
 			for each (var panel:Panel in panelVector){
-				if(panel.hitTestPoint(target.x, target.y, false)){
+				if(panel.hitTestPoint(target.x, target.y, true)){
 					return true;
 				}
 			}
