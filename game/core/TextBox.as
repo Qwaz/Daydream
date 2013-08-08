@@ -26,10 +26,10 @@
 		private function stateChangeHandler(e:StateChangeEvent):void {
 			if(e.prevState == TextBakerState.WAIT){
 				this.visible = true;
-				Game.currentGame.character.startInteract();
+				Game.currentGame.character.startInteraction();
 			} else if(e.nextState == TextBakerState.WAIT){
 				this.visible = false;
-				Game.currentGame.character.endInteract();
+				Game.currentGame.character.endInteraction();
 			}
 		}
 		

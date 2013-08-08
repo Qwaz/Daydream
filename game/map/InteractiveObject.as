@@ -5,6 +5,7 @@
 	public class InteractiveObject extends MapObject {
 
 		public function InteractiveObject() {
+			this.visible = true;
 		}
 		
 		public function available():Boolean {

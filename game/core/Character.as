@@ -70,8 +70,10 @@
 		
 		private function set state(t:String):void {
 			if(t == INTERACT){
-				lastState = _state;
-				stop();
+				if(_state != INTERACT){
+					lastState = _state;
+					stop();
+				}
 			} else if(_state == INTERACT){
 				play();
 			} else {
@@ -80,11 +82,11 @@
 			_state = t;
 		}
 		
-		public function startInteract():void {
+		public function startInteraction():void {
 			this.state = INTERACT;
 		}
 		
-		public function endInteract():void {
+		public function endInteraction():void {
 			this.state = lastState;
 		}
 		
@@ -115,6 +117,7 @@
 					this.state = FALL;
 				} else if(Key.pressed(INTERACTION_KEY)){
 					if(interactive != null){
+						this.startInteraction();
 						interactive.interact();
 					}
 				}
@@ -348,8 +351,6 @@
 		}
 		
 		private function initedHandler(e:GameEvent):void {
-			relX = stage.stageWidth/2;
-			relY = stage.stageHeight/2;
 			this.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
 			
 			Game.currentGame.removeEventListener(GameEvent.INITED, initedHandler);

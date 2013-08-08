@@ -10,6 +10,7 @@
 		private var locked:Boolean = false;
 		
 		public function Door() {
+			this.visible = false;
 		}
 		
 		private function unlock():void {

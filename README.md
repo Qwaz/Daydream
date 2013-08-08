@@ -3,6 +3,18 @@ Daydream(백일몽)
 
 KWC 대비용 게임제작
 
+SharedObject 데이터 형식
+------------
+mapCode : 맵 번호
+
+charX, charY : 캐릭터 좌표
+
+itemPosition : 아이템 좌표 배열
+
+{mapCode, itemCode, x, y, scale}
+
+slot1, slot2, slotUpgrade : 아이템 슬롯 관련 정보
+
 Known Bugs
 ----------
 - 하향 점프시 HoldPoint 관련 오류 발생

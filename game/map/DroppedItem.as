@@ -8,13 +8,17 @@
 		
 		private var _mapCode:int, _itemCode:int;
 
-		public function DroppedItem(mapCode:int, itemCode:int) {
+		public function DroppedItem(mapCode:int, itemCode:int, placeX:Number, placeY:Number, scale:Number) {
 			super();
 			
-			this.visible = true;
+			x = placeX;
+			y = placeY;
+			scaleX = scaleY = scale;
 			
 			_mapCode = mapCode;
 			_itemCode = itemCode;
+			
+			this.visible = _mapCode == Game.currentGame.world.currentFrame;
 			
 			var item:Items = new Items();
 			item.gotoAndStop(itemCode+1);
@@ -22,6 +26,14 @@
 			this.addChild(item);
 			
 			Game.currentGame.world.addEventListener(MapEvent.MOVE_MAP, moveMapHandler);
+		}
+		
+		public function get mapCode():int {
+			return _mapCode;
+		}
+		
+		public function get itemCode():int {
+			return _itemCode;
 		}
 		
 		override public function available():Boolean {
@@ -37,11 +49,7 @@
 		}
 		
 		private function moveMapHandler(e:MapEvent):void {
-			if(Game.currentGame.world.currentFrame == _mapCode){
-				this.visible = true;
-			} else {
-				this.visible = false;
-			}
+			this.visible = _mapCode == Game.currentGame.world.currentFrame;
 		}
 
 	}
