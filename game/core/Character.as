@@ -37,7 +37,7 @@
 		private var headPoint:Point, upFootPoint:Point, downFootPoint:Point, leftPoint:Point, rightPoint:Point, holdPoint:Point;
 		
 		private var lastState:String;
-		public var relX:Number, relY:Number;
+		private var _relX:Number, _relY:Number;
 		
 		private var speedX:Number=0;
 		private var speedY:Number=0;
@@ -135,13 +135,13 @@
 					if(map.hitTestWall(localToGlobal(rightPoint))){
 						this.relX -= WALK_SPEED;
 					}
-					this.scaleX = 1;
+					this.scaleX = -1;
 				} else if(Key.pressed(Keyboard.LEFT)){
 					this.relX -= WALK_SPEED;
 					if(map.hitTestWall(localToGlobal(leftPoint))){
 						this.relX += WALK_SPEED;
 					}
-					this.scaleX = -1;
+					this.scaleX = 1;
 				}
 				
 				if(!map.hitTestWall(localToGlobal(downFootPoint)) && !map.hitTestPanel(localToGlobal(downFootPoint))){
@@ -277,6 +277,8 @@
 			매달려 있을 때
 			********************/
 			} else if(this.state == HOLD){
+				this.lastPanel = null;
+				
 				if(Key.pressed(JUMP_KEY)){
 					this.state = CLIMB;
 				}
@@ -297,16 +299,12 @@
 			매달린 상태, 사다리 등에서 올라갈 때
 			********************/
 			} else if(this.state == CLIMB){
-				tPoint = Game.currentGame.world.localToGlobal(lastHold);
-				tPoint.x -= Game.currentGame.world.x;
-				tPoint.y -= Game.currentGame.world.y;
-				
-				this.relX += (tPoint.x - this.relX)*0.3;
-				this.relY += (tPoint.y - this.relY)*0.3;
 			/********************
 			사다리를 타고 있을 때
 			********************/
 			} else if(this.state == LADDER){
+				this.lastPanel = null;
+				
 				if(Key.pressed(JUMP_KEY)){
 					this.speedX = 0;
 					this.speedY = 0;
@@ -344,10 +342,32 @@
 			return false;
 		}
 		
-		override public function localToGlobal(point:Point):Point {
+		override public function localToGlobal(target:Point):Point {
+			updatePosition();
+			return super.localToGlobal(target);
+		}
+		
+		public function get relX():Number {
+			return _relX;
+		}
+		
+		public function get relY():Number {
+			return _relY;
+		}
+		
+		public function set relX(val:Number):void {
+			_relX = val;
+			updatePosition();
+		}
+		
+		public function set relY(val:Number):void {
+			_relY = val;
+			updatePosition();
+		}
+		
+		private function updatePosition():void {
 			this.x = Game.currentGame.world.x+this.relX;
 			this.y = Game.currentGame.world.y+this.relY;
-			return super.localToGlobal(point);
 		}
 		
 		private function initedHandler(e:GameEvent):void {
