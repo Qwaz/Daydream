@@ -1,4 +1,5 @@
-﻿package game.core {
+﻿
+package game.core {
 	
 	import flash.display.MovieClip;
 	import flash.events.Event;
@@ -316,7 +317,7 @@
 					if(!map.hitTestLadder(localToGlobal(headPoint))){
 						this.speedX = 0;
 						this.speedY = 0;
-						lastHold = Game.currentGame.world.globalToLocal(this.localToGlobal(headPoint));
+						lastHold = Game.currentGame.world.globalToLocal(this.localToGlobal(holdPoint));
 						this.state = CLIMB;
 					}
 				} else if(Key.pressed(Keyboard.DOWN)){
