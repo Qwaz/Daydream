@@ -18,9 +18,9 @@
 			var character:Character = Game.currentGame.character;
 			
 			var dx:Number = this.x+character.relX-stage.stageWidth/2;
-			var dy:Number = this.y+character.relY-stage.stageHeight/2;
+			var dy:Number = this.y+character.relY-stage.stageHeight/2-150;
 			
-			const MAP_SPEED:Number = 0.01;
+			const MAP_SPEED:Number = 0.03;
 			
 			this.x -= dx*MAP_SPEED;
 			this.y -= dy*MAP_SPEED;

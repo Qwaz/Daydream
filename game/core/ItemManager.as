@@ -19,6 +19,7 @@
 	import game.event.GameEvent;
 	import game.map.DroppedItem;
 	import game.db.ItemDB;
+	import game.db.ItemData;
 	
 	public class ItemManager extends MovieClip {
 		private static const
@@ -67,20 +68,22 @@
 			explanation.x = slot1.x;
 			explanation.y = slot1.y + 25;
 			
-			name_txt.text = ItemDB.get(_slot1).name;
-			exp_txt.text = ItemDB.get(_slot1).exp;
+			var slot1Data:ItemData = ItemDB.getItemData(_slot1);
 			
-			if(ItemDB.get(_slot1).exp.length > 15)
+			name_txt.text = slot1Data.name;
+			exp_txt.text = slot1Data.exp;
+			
+			if(slot1Data.exp.length > 15)
 				explanation.width = 160+10;
-			else if(ItemDB.get(_slot1).exp.length > ItemDB.get(_slot1).name.length)
-				explanation.width = ItemDB.get(_slot1).exp.length*11+10;
+			else if(slot1Data.exp.length > slot1Data.name.length)
+				explanation.width = slot1Data.exp.length*11+10;
 			else
-				explanation.width = ItemDB.get(_slot1).name.length*19;
+				explanation.width = slot1Data.name.length*19;
 			
-			explanation.height = 17*(1+ItemDB.get(_slot1).exp.length/15) + 40;
+			explanation.height = 17*(1+slot1Data.exp.length/15) + 40;
 			
 			exp_txt.width = explanation.width - 10;
-			exp_txt.height = 17*(2+ItemDB.get(_slot1).exp.length/15);
+			exp_txt.height = 17*(2+slot1Data.exp.length/15);
 			
 			name_txt.x = slot1.x - name_txt.width/2;
 			name_txt.y = explanation.y + 10;
@@ -135,7 +138,7 @@
 				var charPoint:Point = new Point(Game.currentGame.character.x, Game.currentGame.character.y-10);
 				charPoint = Game.currentGame.world.globalToLocal(charPoint);
 				
-				var dropped:DroppedItem = new DroppedItem(mapCode, itemCode, charPoint.x, charPoint.y, ItemDB.get(itemCode).scale);
+				var dropped:DroppedItem = new DroppedItem(mapCode, itemCode, charPoint.x, charPoint.y, ItemDB.getItemData(itemCode).scale);
 				
 				Game.currentGame.world.addChild(dropped);
 				

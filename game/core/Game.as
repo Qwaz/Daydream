@@ -5,6 +5,7 @@
 	
 	import game.core.MapManager;
 	import game.db.ItemDB;
+	import game.db.MapDB;
 	import game.map.World;
 	import game.event.GameEvent;
 	
@@ -12,6 +13,7 @@
 		private static const NO_DATA:int = -1;
 		
 		public static var currentGame:Game;
+		public static var slotSelector:SlotSelector, collectionViewer:CollectionViewer;
 		
 		private var _data:Object;
 		
@@ -39,14 +41,7 @@
 				if(_data == null){
 					_data = new Object();
 					//DB에 _data 객체 넘겨 초기화
-					_data.mapCode = 3;
-					_data.charX = 173;
-					_data.charY = 286;
-					
-					_data.slot1 = 0;
-					_data.slot2 = 0;
-					_data.slotUpgrade = false;
-					
+					MapDB.initData(_data);
 					ItemDB.initData(_data);
 				}
 				//초기화된 객체를 바탕으로 화면 세팅

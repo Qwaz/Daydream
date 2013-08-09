@@ -44,11 +44,15 @@
 			itemArray[8]._scale = 0.5;
 		}
 		
-		public static function get(index:int):ItemData {
+		public static function getItemData(index:int):ItemData {
 			return itemArray[index];
 		}
 		
 		public static function initData(data:Object):void {
+			data.slot1 = 0;
+			data.slot2 = 0;
+			data.slotUpgrade = false;
+			
 			data.itemPosition = new Array();
 			
 			data.itemPosition.push({mapCode:2, itemCode:5, x:362, y:361, scale:itemArray[5].scale});

@@ -9,6 +9,7 @@
 	import game.map.DroppedItem;
 	import game.map.InteractiveObject;
 	import game.map.map;
+	import game.db.MapDB;
 	
 	public class SlotSelector extends Sprite {
 		
@@ -17,13 +18,14 @@
 		SAVE:int=1,
 		LOAD:int=2;
 		
-		private static const
-		waitX:Number=11, waitY:Number=-426,
-		activeX:Number=18, activeY:Number=175;
-		
 		private var mode:int = WAIT;
-
+		
 		public function SlotSelector() {
+			Game.slotSelector = this;
+			
+			alpha = 0;
+			this.visible = false;
+			
 			var i:int;
 			for(i=1; i<=8; i++){
 				this["slot"+i].descriptionText.text = "슬롯 "+i;
@@ -44,6 +46,7 @@
 			for(i=1; i<=8; i++){
 				var now:Object = this["slot"+i];
 				now.dataText.text = now.so.data.saved?"데이터 존재":"빈 슬롯";
+				now.mapText.text = now.so.data.saved?MapDB.getMapName(now.so.data.mapCode):"";
 			}
 		}
 		
@@ -82,30 +85,35 @@
 			
 			so.flush();
 			
-			slotClose();
+			close();
 		}
 		
 		private function loadGame(so:SharedObject):void {
 			var target:Object = so.data;
 			
-			slotClose();
+			close();
 			
 			new Game(root as MovieClip, target);
 		}
 		
-		public function slotOpen(mode:int):void {
+		public function open(mode:int):void {
+			this.visible = true;
 			this.mode = mode;
-			TweenNano.to(this, 0.7, {x:activeX, y:activeY});
+			TweenNano.to(this, 0.7, {alpha:1});
 		}
 		
-		public function slotClose():void {
+		public function close():void {
 			if(this.mode == SAVE) Game.currentGame.character.endInteraction();
 			this.mode = WAIT;
-			TweenNano.to(this, 0.7, {x:waitX, y:waitY});
+			TweenNano.to(this, 0.7, {alpha:0, onComplete:invisible});
 		}
 		
-		private function closeButtonClickHandler(e:MouseEvent){
-			slotClose();
+		private function invisible():void {
+			this.visible = false;
+		}
+		
+		private function closeButtonClickHandler(e:MouseEvent):void {
+			close();
 		}
 
 	}
