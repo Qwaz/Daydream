@@ -1,5 +1,6 @@
 ﻿package game.core {
 	import flash.display.Sprite;
+	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
 	import flash.net.SharedObject;
 	
@@ -16,6 +17,8 @@
 		
 		private static const
 		PAGE:int = 4;
+		
+		public static var collectionNotify:CollectionNotify;
 		
 		private var _mode:int = STORY;
 		
@@ -139,6 +142,8 @@
 				so.data[name]++;
 				if(so.data[name] == max){
 					//콜렉션 획득
+					collectionNotify.title.text = data.title;
+					collectionNotify.notify();
 				}
 			}
 			so.flush();
