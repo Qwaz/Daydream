@@ -3,6 +3,8 @@
 	import game.core.Game;
 	
 	public class InteractiveObject extends MapObject {
+		
+		public var check:Function;
 
 		public function InteractiveObject() {
 			this.visible = true;
@@ -13,12 +15,14 @@
 		}
 		
 		public function interact():void {
-			
+			if(check == null || check()){
+				Game.currentGame.character.endInteraction();
+			}
 		}
 		
 		public function emphasize(selected:Boolean):void {
 			if(selected){
-				this.alpha = 0.5;
+				this.alpha = 0.7;
 			} else {
 				this.alpha = 1;
 			}

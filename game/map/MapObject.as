@@ -1,8 +1,8 @@
 ﻿package game.map {
-	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.display.MovieClip;
 	
-	public class MapObject extends Sprite {
+	public class MapObject extends MovieClip {
 
 		public function MapObject() {
 			this.visible = false;

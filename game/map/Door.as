@@ -1,31 +1,27 @@
 ﻿package game.map {
 	import flash.events.Event;
-	import flash.display.MovieClip;
 	
 	import game.core.Game;
+	import game.db.MapDB;
 	
 	public class Door extends InteractiveObject {
 		
-		private var opened:Boolean = false;
-		private var locked:Boolean = false;
-		
 		public function Door() {
-			this.visible = false;
-		}
-		
-		private function unlock():void {
-			this.locked = false;
 		}
 		
 		override public function interact():void {
-			if(locked){
-				//if(/*잠금해제조건*/) unlock();
-				return;
-			} else if(opened){
-				return;
-			} else {
-				opened = true;
-				MovieClip(this.parent).play();
+			if(check == null || check()){
+				this.play();
+				this.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
+			}
+		}
+		
+		private function enterFrameHandler(e:Event):void {
+			if(this.currentFrame == this.totalFrames){
+				this.removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
+				
+				Game.currentGame.character.endInteraction();
+				Game.currentGame.mapManager.moveMap(MapDB.getDoorData(this.name));
 			}
 		}
 	}
