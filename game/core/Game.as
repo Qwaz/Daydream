@@ -7,8 +7,9 @@
 	import game.db.EventDB;
 	import game.db.ItemDB;
 	import game.db.MapDB;
-	import game.map.World;
 	import game.event.GameEvent;
+	import game.event.MapEvent;
+	import game.map.World;
 	
 	public class Game extends EventDispatcher {
 		private static const NO_DATA:int = -1;
@@ -51,6 +52,8 @@
 				_world.gotoAndStop(_data.mapCode);
 				_character.relX = _data.charX;
 				_character.relY = _data.charY;
+				
+				_world.dispatchEvent(new MapEvent(MapEvent.MOVE_MAP));
 				
 				_event = new Object();
 				
