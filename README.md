@@ -9,6 +9,8 @@ mapCode : 맵 번호
 
 charX, charY : 캐릭터 좌표
 
+event : 이벤트 정보 오브젝트(Boolean)
+
 itemPosition : 아이템 좌표 배열
 
 {mapCode, itemCode, x, y, scale}

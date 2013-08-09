@@ -4,6 +4,7 @@
 	import flash.events.EventDispatcher;
 	
 	import game.core.MapManager;
+	import game.db.EventDB;
 	import game.db.ItemDB;
 	import game.db.MapDB;
 	import game.map.World;
@@ -15,7 +16,7 @@
 		public static var currentGame:Game;
 		public static var slotSelector:SlotSelector, collectionViewer:CollectionViewer;
 		
-		private var _data:Object;
+		private var _data:Object, _event:Object;
 		
 		private var _character:Character;
 		private var _textBox:TextBox;
@@ -44,11 +45,19 @@
 					MapDB.initData(_data);
 					ItemDB.initData(_data);
 				}
+				EventDB.initData(_data);
 				//초기화된 객체를 바탕으로 화면 세팅
 				
 				_world.gotoAndStop(_data.mapCode);
 				_character.relX = _data.charX;
 				_character.relY = _data.charY;
+				
+				_event = new Object();
+				
+				var name:String;
+				for(name in _data.event){
+					_event[name] = _data.event[name];
+				}
 				
 				this.dispatchEvent(new GameEvent(GameEvent.INITED));
 				
@@ -58,6 +67,10 @@
 		
 		public function get data():Object {
 			return _data;
+		}
+		
+		public function get event():Object {
+			return _event;
 		}
 		
 		public function get character():Character {

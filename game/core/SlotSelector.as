@@ -79,6 +79,11 @@
 				}
 			}
 			
+			var name:String;
+			for(name in Game.currentGame.event){
+				target.event[name] = Game.currentGame.event[name];
+			}
+			
 			target.slot1 = Game.currentGame.itemManager.item1;
 			target.slot2 = Game.currentGame.itemManager.item2;
 			target.slotUpgrade = Game.currentGame.itemManager.isUpgraded;
