@@ -25,12 +25,14 @@
 			doorData.m3d1 = new DoorData(4, 468, 396);
 			doorData.m3d2 = new DoorData(5, -124, 392);
 			doorData.m3d3 = new DoorData(5, 1084, 392);
-			doorData.m3d4 = new DoorData(6, 212, 456);
+			doorData.m3d4 = new DoorData(6, 561, 472);
 			
 			doorData.m4d1 = new DoorData(3, -1464, 492);
 			
 			doorData.m5d1 = new DoorData(3, -1056, 478);
 			doorData.m5d2 = new DoorData(3, 184, 478);
+			
+			doorData.m6d1 = new DoorData(3, 619, 509);
 		}
 		
 		public static function getMapName(index:int):String {

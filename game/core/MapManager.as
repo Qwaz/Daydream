@@ -8,6 +8,7 @@
 	import game.db.DoorData;
 	import game.event.MapEvent;
 	import game.map.*;
+	import game.map.interactive.InteractiveObject;
 	
 	public class MapManager {
 		

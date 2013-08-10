@@ -6,9 +6,9 @@
 	
 	import com.greensock.TweenNano;
 	
-	import game.map.DroppedItem;
-	import game.map.InteractiveObject;
 	import game.map.map;
+	import game.map.interactive.DroppedItem;
+	import game.map.interactive.InteractiveObject;
 	import game.db.MapDB;
 	
 	public class SlotSelector extends Sprite {

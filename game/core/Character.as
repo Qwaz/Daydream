@@ -11,6 +11,7 @@ package game.core {
 	import game.core.ItemManager;
 	import game.event.GameEvent;
 	import game.map.*;
+	import game.map.interactive.InteractiveObject;
 	
 	public class Character extends MovieClip {
 		public static const
@@ -37,7 +38,7 @@ package game.core {
 		
 		private var headPoint:Point, upFootPoint:Point, downFootPoint:Point, leftPoint:Point, rightPoint:Point, holdPoint:Point;
 		
-		private var lastState:String;
+		private var lastState:String, interactionCount:int=0;
 		private var _relX:Number, _relY:Number;
 		
 		private var speedX:Number=0;
@@ -85,10 +86,14 @@ package game.core {
 		
 		public function startInteraction():void {
 			this.state = INTERACT;
+			interactionCount++;
 		}
 		
 		public function endInteraction():void {
-			this.state = lastState;
+			interactionCount--;
+			if(interactionCount == 0){
+				this.state = lastState;
+			}
 		}
 		
 		public function startFall():void {

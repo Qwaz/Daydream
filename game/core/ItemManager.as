@@ -17,7 +17,7 @@
 	import flash.geom.Point;
 	
 	import game.event.GameEvent;
-	import game.map.DroppedItem;
+	import game.map.interactive.DroppedItem;
 	import game.db.ItemDB;
 	import game.db.ItemData;
 	
