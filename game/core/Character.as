@@ -90,9 +90,11 @@ package game.core {
 		}
 		
 		public function endInteraction():void {
-			interactionCount--;
-			if(interactionCount == 0){
-				this.state = lastState;
+			if(this.state == INTERACT){
+				interactionCount--;
+				if(interactionCount == 0){
+					this.state = lastState;
+				}
 			}
 		}
 		

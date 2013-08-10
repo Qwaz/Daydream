@@ -31,17 +31,21 @@
 		}
 		
 		public function moveMap(doorData:DoorData){
-			Game.currentGame.world.gotoAndStop(doorData.destMap);
-			Object(Game.currentGame.world.parent).shade.gotoAndPlay(2);
+			var shade:MovieClip = Object(Game.currentGame.world.parent).shade;
 			
-			var character:Character = Game.currentGame.character;
-			character.relX = doorData.destX;
-			character.relY = doorData.destY;
-			
-			character.startFall();
-			
-			var mapEvent:MapEvent = new MapEvent(MapEvent.MOVE_MAP);
-			Game.currentGame.world.dispatchEvent(mapEvent);
+			if(shade.currentFrame == 1){
+				Game.currentGame.world.gotoAndStop(doorData.destMap);
+				shade.gotoAndPlay(2);
+				
+				var character:Character = Game.currentGame.character;
+				character.relX = doorData.destX;
+				character.relY = doorData.destY;
+				
+				character.startFall();
+				
+				var mapEvent:MapEvent = new MapEvent(MapEvent.MOVE_MAP);
+				Game.currentGame.world.dispatchEvent(mapEvent);
+			}
 		}
 		
 		public function hitTestWall(target:Point):Boolean {

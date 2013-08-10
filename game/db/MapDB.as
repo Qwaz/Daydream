@@ -24,6 +24,12 @@
 			mapArray[11] = "여자 화장실(2층)";
 			mapArray[12] = "3-2반 교실";
 			mapArray[13] = "과학실";
+			mapArray[14] = "3층 복도";
+			mapArray[15] = "양호실";
+			mapArray[16] = "2-1반 교실";
+			mapArray[17] = "남자 화장실(3층)";
+			mapArray[18] = "2-2반 교실";
+			mapArray[19] = "2-3반 교실";
 			
 			
 			doorData = new Object();
@@ -34,6 +40,7 @@
 			doorData.m3d4 = new DoorData(6, 561, 472);
 			doorData.m3d5 = new DoorData(7, 20, 346);
 			doorData.m3d6 = new DoorData(7, 1449, 363);
+			doorData.m3down = new DoorData(0, 0, 0);
 			
 			doorData.m4d1 = new DoorData(3, -1464, 492);
 			
@@ -56,7 +63,7 @@
 			doorData.m9d5 = new DoorData(12, 1027, 526);
 			doorData.m9d6 = new DoorData(12, 0, 523);
 			doorData.m9d7 = new DoorData(13, 1275, 539);
-			doorData.m9up = new DoorData(0, 0, 0);
+			doorData.m9up = new DoorData(14, 883, 451);
 			
 			doorData.m10d1 = new DoorData(9, 1344, 462);
 			doorData.m10d2 = new DoorData(9, 2644, 462);
@@ -67,6 +74,25 @@
 			doorData.m12d2 = new DoorData(9, -55, 448);
 			
 			doorData.m13d1 = new DoorData(9, -1733, 475);
+			
+			doorData.m14d1 = new DoorData(15, 453, 437);
+			doorData.m14d2 = new DoorData(16, 84, 524);
+			doorData.m14d3 = new DoorData(16, 1217, 535);
+			doorData.m14d4 = new DoorData(17, 587, 566);
+			doorData.m14d5 = new DoorData(18, -33, 550);
+			doorData.m14d6 = new DoorData(19, -28, 545);
+			doorData.m14down = new DoorData(9, 741, 476);
+			
+			doorData.m15d1 = new DoorData(14, -1889, 469);
+			
+			doorData.m16d1 = new DoorData(14, -1375, 469);
+			doorData.m16d2 = new DoorData(14, -97, 467);
+			
+			doorData.m17d1 = new DoorData(14, 268, 481);
+			
+			doorData.m18d1 = new DoorData(14, 1263, 473);
+			
+			doorData.m19d1 = new DoorData(14, 3074, 466);
 		}
 		
 		public static function getMapName(index:int):String {
@@ -78,7 +104,7 @@
 		}
 		
 		public static function initData(data:Object):void {
-			data.mapCode = 3;
+			data.mapCode = 9;
 			data.charX = 1052;
 			data.charY = 454;
 		}

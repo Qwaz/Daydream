@@ -1,11 +1,11 @@
 ﻿package game.map {
-	import flash.display.Sprite;
+	import flash.display.MovieClip;
 	import flash.events.Event;
 	
 	import game.core.Game;
 	import game.event.MapEvent;
 	
-	public class FrontObject extends Sprite {
+	public class FrontObject extends MovieClip {
 		
 		private var mapCode:int;
 		
