@@ -25,6 +25,9 @@
 			this.x -= dx*MAP_SPEED;
 			this.y -= dy*MAP_SPEED;
 			
+			Game.currentGame.frontWorld.x = this.x;
+			Game.currentGame.frontWorld.y = this.y;
+			
 			character.x = this.x+character.relX;
 			character.y = this.y+character.relY;
 		}

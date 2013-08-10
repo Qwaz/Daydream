@@ -15,6 +15,10 @@
 			mapArray[2] = "운동장";
 			mapArray[3] = "1층 복도";
 			mapArray[4] = "수위실";
+			mapArray[5] = "3-1";
+			mapArray[6] = "1층 화장실";
+			mapArray[7] = "중앙 교무실";
+			
 			
 			doorData = new Object();
 			

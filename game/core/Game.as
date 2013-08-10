@@ -1,5 +1,6 @@
 ﻿package game.core {
 	import flash.display.MovieClip;
+	import flash.display.Sprite;
 	import flash.errors.IllegalOperationError;
 	import flash.events.EventDispatcher;
 	
@@ -22,6 +23,7 @@
 		private var _character:Character;
 		private var _textBox:TextBox;
 		private var _world:World;
+		private var _frontWorld:Sprite;
 		
 		private var _mapManager:MapManager;
 		private var _itemManager:ItemManager;
@@ -37,7 +39,7 @@
 		}
 		
 		private function checkInit():void {
-			if(_character && _world && _itemManager && _textBox){
+			if(_character && _world && _frontWorld && _itemManager && _textBox){
 				Key.init();
 				
 				if(_data == null){
@@ -99,6 +101,19 @@
 				checkInit();
 			} else {
 				throw new IllegalOperationError("이미 월드가 초기화되었습니다");
+			}
+		}
+		
+		public function get frontWorld():Sprite {
+			return _frontWorld;
+		}
+		
+		public function set frontWorld(frontWorld:Sprite):void {
+			if(_frontWorld == null){
+				_frontWorld = frontWorld;
+				checkInit();
+			} else {
+				throw new IllegalOperationError("이미 앞쪽 월드가 초기화되었습니다.");
 			}
 		}
 		
