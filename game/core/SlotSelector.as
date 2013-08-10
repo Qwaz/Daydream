@@ -13,6 +13,8 @@
 	
 	public class SlotSelector extends Sprite {
 		
+		public static var slotSelector:SlotSelector;
+		
 		public static const
 		WAIT:int=0,
 		SAVE:int=1,
@@ -21,7 +23,7 @@
 		private var mode:int = WAIT;
 		
 		public function SlotSelector() {
-			Game.slotSelector = this;
+			slotSelector = this;
 			
 			alpha = 0;
 			this.visible = false;

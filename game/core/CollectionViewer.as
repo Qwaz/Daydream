@@ -11,6 +11,8 @@
 	
 	public class CollectionViewer extends Sprite {
 		
+		public static var collectionViewer:CollectionViewer;
+		
 		private static const
 		STORY:int = 0,
 		EXTRA:int = 1;
@@ -27,7 +29,7 @@
 		private var so:SharedObject;
 
 		public function CollectionViewer() {
-			Game.collectionViewer = this;
+			collectionViewer = this;
 			
 			alpha = 0;
 			this.visible = false;

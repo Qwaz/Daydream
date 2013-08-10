@@ -4,7 +4,7 @@
 	
 	public class SavePoint extends InteractiveObject {
 		override public function interact():void {
-			Game.slotSelector.open(SlotSelector.SAVE);
+			SlotSelector.slotSelector.open(SlotSelector.SAVE);
 		}
 
 	}

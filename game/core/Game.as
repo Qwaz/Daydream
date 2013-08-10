@@ -16,7 +16,6 @@
 		private static const NO_DATA:int = -1;
 		
 		public static var currentGame:Game;
-		public static var slotSelector:SlotSelector, collectionViewer:CollectionViewer;
 		
 		private var _data:Object, _event:Object;
 		
