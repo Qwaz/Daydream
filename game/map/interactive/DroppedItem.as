@@ -47,10 +47,10 @@
 					this.parent.removeChild(this);
 					Game.currentGame.world.removeEventListener(MapEvent.MOVE_MAP, moveMapHandler);
 				}
-				Game.currentGame.character.endInteraction();
 			} else {
 				
 			}
+			Game.currentGame.character.endInteraction();
 		}
 		
 		private function moveMapHandler(e:MapEvent):void {

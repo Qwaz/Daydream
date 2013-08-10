@@ -154,6 +154,7 @@
 		}
 
 		public function open():void {
+			if(Game.currentGame) Game.currentGame.character.startInteraction();
 			updateCollections();
 			
 			this.visible = true;

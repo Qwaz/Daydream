@@ -56,7 +56,7 @@
 		
 		public function hitTestPanel(target:Point, ignore:Panel=null):Panel {
 			for each (var panel:Panel in _panelVector){
-				if(panel != ignore && panel.hitTestPoint(target.x, target.y, false)){
+				if(panel != ignore && panel.hitTestPoint(target.x, target.y, true)){
 					return panel;
 				}
 			}

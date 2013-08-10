@@ -104,13 +104,14 @@
 		}
 		
 		public function open(mode:int):void {
+			if(Game.currentGame) Game.currentGame.character.startInteraction();
 			this.visible = true;
 			this.mode = mode;
 			TweenNano.to(this, 0.7, {alpha:1});
 		}
 		
 		public function close():void {
-			if(this.mode == SAVE) Game.currentGame.character.endInteraction();
+			if(Game.currentGame) Game.currentGame.character.endInteraction();
 			this.mode = WAIT;
 			TweenNano.to(this, 0.7, {alpha:0, onComplete:invisible});
 		}

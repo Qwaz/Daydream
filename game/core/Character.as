@@ -52,8 +52,8 @@ package game.core {
 			downFootPoint = new Point(downFoot.x, downFoot.y);
 			holdPoint = new Point(holdRange.x*2, holdRange.y);
 			
-			leftPoint = new Point(-WALK_SPEED, downFootPoint.y-SMOOTH_GAP);
-			rightPoint = new Point(WALK_SPEED, downFootPoint.y-SMOOTH_GAP);
+			leftPoint = new Point(downFootPoint.x-WALK_SPEED, downFootPoint.y-SMOOTH_GAP);
+			rightPoint = new Point(downFootPoint.y+WALK_SPEED, downFootPoint.y-SMOOTH_GAP);
 			
 			state = FALL;
 			
