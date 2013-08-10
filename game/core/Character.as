@@ -343,11 +343,6 @@ package game.core {
 			return false;
 		}
 		
-		override public function localToGlobal(target:Point):Point {
-			updatePosition();
-			return super.localToGlobal(target);
-		}
-		
 		public function get relX():Number {
 			return _relX;
 		}
@@ -366,7 +361,7 @@ package game.core {
 			updatePosition();
 		}
 		
-		private function updatePosition():void {
+		public function updatePosition():void {
 			this.x = Game.currentGame.world.x+this.relX;
 			this.y = Game.currentGame.world.y+this.relY;
 		}

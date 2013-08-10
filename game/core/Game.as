@@ -55,8 +55,6 @@
 				_character.relX = _data.charX;
 				_character.relY = _data.charY;
 				
-				_world.dispatchEvent(new MapEvent(MapEvent.MOVE_MAP));
-				
 				_event = new Object();
 				
 				var name:String;
@@ -65,6 +63,8 @@
 				}
 				
 				this.dispatchEvent(new GameEvent(GameEvent.INITED));
+				
+				_world.dispatchEvent(new MapEvent(MapEvent.MOVE_MAP));
 				
 				_data = null;
 			}

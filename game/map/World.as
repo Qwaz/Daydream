@@ -5,6 +5,7 @@
 	import game.core.Character;
 	import game.core.Game;
 	import game.event.GameEvent;
+	import game.event.MapEvent;
 	
 	public class World extends MovieClip {
 
@@ -25,15 +26,31 @@
 			this.x -= dx*MAP_SPEED;
 			this.y -= dy*MAP_SPEED;
 			
+			updatePosition();
+		}
+		
+		private function moveMapHandler(e:MapEvent):void {
+			var character:Character = Game.currentGame.character;
+			
+			var dx:Number = this.x+character.relX-stage.stageWidth/2;
+			var dy:Number = this.y+character.relY-stage.stageHeight/2-150;
+			
+			this.x -= dx;
+			this.y -= dy;
+			
+			updatePosition();
+		}
+		
+		private function updatePosition():void {
 			Game.currentGame.frontWorld.x = this.x;
 			Game.currentGame.frontWorld.y = this.y;
 			
-			character.x = this.x+character.relX;
-			character.y = this.y+character.relY;
+			Game.currentGame.character.updatePosition();
 		}
 		
 		private function initedHandler(e:GameEvent):void {
 			this.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
+			this.addEventListener(MapEvent.MOVE_MAP, moveMapHandler);
 			
 			Game.currentGame.removeEventListener(GameEvent.INITED, initedHandler);
 		}
