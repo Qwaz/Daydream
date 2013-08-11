@@ -42,7 +42,7 @@
 		}
 		
 		private function keyDownHandler(e:KeyboardEvent):void {
-			if(this.visible == true && e.keyCode == Keyboard.SPACE){
+			if(this.visible == true && e.keyCode == Keyboard.A){
 				_textBaker.next();
 			}
 		}

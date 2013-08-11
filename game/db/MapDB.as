@@ -9,7 +9,7 @@
 		{
 			mapArray = new Vector.<String>;
 			
-			for(i=0; i<20; i++)
+			for(i=0; i<30; i++)
 				mapArray[i] = "";
 				
 			mapArray[2] = "운동장";
@@ -30,9 +30,17 @@
 			mapArray[17] = "남자 화장실(3층)";
 			mapArray[18] = "2-2반 교실";
 			mapArray[19] = "2-3반 교실";
+			mapArray[20] = "4층 복도";
+			mapArray[21] = "1-1반 교실";
+			mapArray[22] = "1-2반 교실";
+			mapArray[23] = "여자 화장실(4층)";
+			mapArray[24] = "1-3반 교실";
+			mapArray[25] = "1-4반 교실";
 			
 			
 			doorData = new Object();
+			
+			doorData.m2d1 = new DoorData(3, 908, 520);
 			
 			doorData.m3d1 = new DoorData(4, 468, 396);
 			doorData.m3d2 = new DoorData(5, -124, 392);
@@ -81,6 +89,7 @@
 			doorData.m14d4 = new DoorData(17, 587, 566);
 			doorData.m14d5 = new DoorData(18, -33, 550);
 			doorData.m14d6 = new DoorData(19, -28, 545);
+			doorData.m14up = new DoorData(20, 1572, 490);
 			doorData.m14down = new DoorData(9, 741, 476);
 			
 			doorData.m15d1 = new DoorData(14, -1889, 469);
@@ -93,6 +102,28 @@
 			doorData.m18d1 = new DoorData(14, 1263, 473);
 			
 			doorData.m19d1 = new DoorData(14, 3074, 466);
+			
+			doorData.m20d1 = new DoorData(21, 1004, 565);
+			doorData.m20d2 = new DoorData(22, -95, 579);
+			doorData.m20d3 = new DoorData(22, 940, 583);
+			doorData.m20d4 = new DoorData(23, 618, 587);
+			doorData.m20d5 = new DoorData(24, 198, 434);
+			doorData.m20d6 = new DoorData(24, 1323, 437);
+			doorData.m20d7 = new DoorData(25, 14, 581);
+			doorData.m20up = new DoorData(0, 0, 0);
+			doorData.m20down = new DoorData(14, 702, 449);
+			
+			doorData.m21d1 = new DoorData(20, -1168, 504);
+			
+			doorData.m22d1 = new DoorData(20, -705, 500);
+			doorData.m22d2 = new DoorData(20, 574, 502);
+			
+			doorData.m23d1 = new DoorData(20, 979, 494);
+			
+			doorData.m24d1 = new DoorData(20, 1969, 501);
+			doorData.m24d2 = new DoorData(20, 3218, 504);
+			
+			doorData.m25d1 = new DoorData(20, 3632, 502);
 		}
 		
 		public static function getMapName(index:int):String {
@@ -104,9 +135,9 @@
 		}
 		
 		public static function initData(data:Object):void {
-			data.mapCode = 9;
-			data.charX = 1052;
-			data.charY = 454;
+			data.mapCode = 2;
+			data.charX = -1020;
+			data.charY = 504;
 		}
 
 	}
