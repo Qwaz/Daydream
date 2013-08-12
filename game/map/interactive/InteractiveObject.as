@@ -14,7 +14,7 @@
 		}
 		
 		public function available():Boolean {
-			return true;
+			return this.visible;
 		}
 		
 		public function interact(item:int=0):void {

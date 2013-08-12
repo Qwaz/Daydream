@@ -77,9 +77,11 @@
 			for each(io in Game.currentGame.mapManager.map::interactiveVector){
 				if(io is DroppedItem){
 					var dropped:DroppedItem = io as DroppedItem;
-					target.itemPosition.push({mapCode:dropped.mapCode, itemCode:dropped.itemCode, x:dropped.x, y:dropped.y, scale:dropped.scaleX});
+					target.itemPosition.push({mapCode:dropped.mapCode, itemCode:dropped.itemCode, x:dropped.x, y:dropped.y});
 				}
 			}
+			
+			target.event = new Object();
 			
 			var name:String;
 			for(name in Game.currentGame.event){
@@ -91,6 +93,8 @@
 			target.slotUpgrade = Game.currentGame.itemManager.isUpgraded;
 			
 			so.flush();
+			
+			updateSlots();
 			
 			close();
 		}

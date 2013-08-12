@@ -118,31 +118,30 @@
 			return true;
 		}
 		
-		private function throwItem():void
-		{
-			var mapCode:int = Game.currentGame.world.currentFrame;
-			var itemCode:int = -1;
-			
-			if(_slot1 != 0){
-				itemCode = _slot1;
-				_slot1 = 0;
-				
-				if(_upgrade && _slot2 != 0)
-					switchSlot();
-			} else if(_upgrade && _slot2 != 0){
-				itemCode = _slot2;
-				_slot2 = 0;
+		public function useItem():void {
+			_slot1 = 0;
+			if(_upgrade && _slot2 != 0){
+				switchSlot();
 			}
 			
-			if(itemCode != -1){
+			refresh();
+		}
+		
+		private function throwItem():void
+		{
+			CollectionViewer.collectionViewer.collect("eItemDrop");
+			
+			var mapCode:int = Game.currentGame.world.currentFrame;
+			
+			if(_slot1 != 0){
 				var charPoint:Point = new Point(Game.currentGame.character.x, Game.currentGame.character.y-10);
 				charPoint = Game.currentGame.world.globalToLocal(charPoint);
 				
-				var dropped:DroppedItem = new DroppedItem(mapCode, itemCode, charPoint.x, charPoint.y, ItemDB.getItemData(itemCode).scale);
+				var dropped:DroppedItem = new DroppedItem(mapCode, _slot1, charPoint.x, charPoint.y);
 				
 				Game.currentGame.world.addChild(dropped);
 				
-				refresh();
+				useItem();
 			}
 		}
 		
@@ -194,7 +193,7 @@
 			
 			var itemData:Object;
 			for each(itemData in Game.currentGame.data.itemPosition){
-				var dropped:DroppedItem = new DroppedItem(itemData.mapCode, itemData.itemCode, itemData.x, itemData.y, itemData.scale);
+				var dropped:DroppedItem = new DroppedItem(itemData.mapCode, itemData.itemCode, itemData.x, itemData.y);
 				Game.currentGame.world.addChild(dropped);
 			}
 			

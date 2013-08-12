@@ -16,39 +16,40 @@
 			mapArray[3] = "1층 복도";
 			mapArray[4] = "수위실";
 			mapArray[5] = "3-1반 교실";
-			mapArray[6] = "남자 화장실(1층)";
+			mapArray[6] = "1층 화장실";
 			mapArray[7] = "교무실";
 			mapArray[8] = "2-4반 교실";
 			mapArray[9] = "2층 복도";
 			mapArray[10] = "3-3반 교실";
-			mapArray[11] = "여자 화장실(2층)";
+			mapArray[11] = "2층 화장실";
 			mapArray[12] = "3-2반 교실";
 			mapArray[13] = "과학실";
 			mapArray[14] = "3층 복도";
 			mapArray[15] = "양호실";
 			mapArray[16] = "2-1반 교실";
-			mapArray[17] = "남자 화장실(3층)";
+			mapArray[17] = "3층 화장실";
 			mapArray[18] = "2-2반 교실";
 			mapArray[19] = "2-3반 교실";
 			mapArray[20] = "4층 복도";
 			mapArray[21] = "1-1반 교실";
 			mapArray[22] = "1-2반 교실";
-			mapArray[23] = "여자 화장실(4층)";
+			mapArray[23] = "4층 화장실";
 			mapArray[24] = "1-3반 교실";
 			mapArray[25] = "1-4반 교실";
+			mapArray[26] = "지하창고(좌)";
 			
 			
 			doorData = new Object();
 			
 			doorData.m2d1 = new DoorData(3, 908, 520);
 			
-			doorData.m3d1 = new DoorData(4, 468, 396);
+			doorData.m3d1 = new DoorData(4, 468, 456);
 			doorData.m3d2 = new DoorData(5, -124, 392);
 			doorData.m3d3 = new DoorData(5, 1084, 392);
 			doorData.m3d4 = new DoorData(6, 561, 472);
 			doorData.m3d5 = new DoorData(7, 20, 346);
 			doorData.m3d6 = new DoorData(7, 1449, 363);
-			doorData.m3down = new DoorData(0, 0, 0);
+			doorData.m3down = new DoorData(26, -53, 554);
 			
 			doorData.m4d1 = new DoorData(3, -1464, 492);
 			
@@ -124,6 +125,9 @@
 			doorData.m24d2 = new DoorData(20, 3218, 504);
 			
 			doorData.m25d1 = new DoorData(20, 3632, 502);
+			doorData.m25down = new DoorData(19, 341, 405);
+			
+			doorData.m26d1 = new DoorData(3, 1278, 513);
 		}
 		
 		public static function getMapName(index:int):String {

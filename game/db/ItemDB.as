@@ -47,37 +47,33 @@
 			itemArray[9]._exp = "열쇠의 녹을 제거했다.";
 			itemArray[9]._scale = 0.5;
 			
-			itemArray[10]._name = '녹이 제거된 열쇠';
-			itemArray[10]._exp = "열쇠의 녹을 제거했다.";
+			itemArray[10]._name = '염산';
+			itemArray[10]._exp = "강력한 산이다. 녹을 제거할 수 있을 것 같다.";
 			itemArray[10]._scale = 0.5;
 			
-			itemArray[11]._name = '염산';
-			itemArray[11]._exp = "강력한 산이다. 녹을 제거할 수 있을 것 같다.";
+			itemArray[11]._name = '일자 드라이버';
+			itemArray[11]._exp = "일자 드라이버다. 끝을 어딘가에 끼워 넣을 수 있을 것 같다.";
 			itemArray[11]._scale = 0.5;
 			
-			itemArray[12]._name = '일자 드라이버';
-			itemArray[12]._exp = "일자 드라이버다. 끝을 어딘가에 끼워 넣을 수 있을 것 같다.";
+			itemArray[12]._name = '망치';
+			itemArray[12]._exp = "못을 박는데 사용되는 망치다.";
 			itemArray[12]._scale = 0.5;
 			
-			itemArray[13]._name = '망치';
-			itemArray[13]._exp = "못을 박는데 사용되는 망치다.";
+			itemArray[13]._name = '열쇠뭉치';
+			itemArray[13]._exp = "수위아저씨의 열쇠뭉치다. 양호실, 1학년 교실, 지하창고라는 문구가 보인다.";
 			itemArray[13]._scale = 0.5;
 			
-			itemArray[14]._name = '열쇠뭉치';
-			itemArray[14]._exp = "수위아저씨의 열쇠뭉치다. 양호실, 1학년 교실, 지하창고라는 문구가 보인다.";
-			itemArray[14]._scale = 0.5;
+			itemArray[14]._name = '천막용 천';
+			itemArray[14]._exp = "천막을 치는데 사용되는 천이다. 가볍고 튼튼하다.";
+			itemArray[14]._scale = 1;
 			
-			itemArray[15]._name = '천막용 천';
-			itemArray[15]._exp = "천막을 치는데 사용되는 천이다. 가볍고 튼튼하다.";
-			itemArray[15]._scale = 1;
+			itemArray[15]._name = '검은색 열쇠';
+			itemArray[15]._exp = "손잡이 부분이 검은 열쇠다.";
+			itemArray[15]._scale = 0.5;
 			
-			itemArray[16]._name = '검은색 열쇠';
-			itemArray[16]._exp = "손잡이 부분이 검은 열쇠다.";
+			itemArray[16]._name = '도끼';
+			itemArray[16]._exp = "나무 뿌리 등을 자를 수 있을 것 같다.";
 			itemArray[16]._scale = 0.5;
-			
-			itemArray[17]._name = '도끼';
-			itemArray[17]._exp = "나무 뿌리 등을 자를 수 있을 것 같다.";
-			itemArray[17]._scale = 0.5;
 		}
 		
 		public static function getItemData(index:int):ItemData {
@@ -91,7 +87,10 @@
 			
 			data.itemPosition = new Array();
 			
-			data.itemPosition.push({mapCode:2, itemCode:5, x:362, y:361, scale:itemArray[5].scale});
+			data.itemPosition.push({mapCode:4, itemCode:6, x:324, y:287});
+			data.itemPosition.push({mapCode:4, itemCode:8, x:1035, y:434});
+			data.itemPosition.push({mapCode:13, itemCode:10, x:385, y:443});
+			data.itemPosition.push({mapCode:26, itemCode:14, x:767, y:542});
 		}
 
 	}

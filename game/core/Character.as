@@ -25,7 +25,8 @@ package game.core {
 		
 		private static const
 		JUMP_KEY:uint = Keyboard.SPACE,
-		INTERACTION_KEY:uint = Keyboard.E;
+		INTERACTION_KEY:uint = Keyboard.E,
+		ITEM_KEY:uint = Keyboard.W;
 		
 		private static const
 		WALK_SPEED:Number = 5,
@@ -99,7 +100,14 @@ package game.core {
 		}
 		
 		public function startFall():void {
-			this.state = FALL;
+			if(this.state == INTERACT){
+				lastState = FALL;
+				this.gotoAndStop(FALL);
+				speedX = 0;
+				speedY = 0;
+			} else {
+				this.state = FALL;
+			}
 		}
 		
 		private function enterFrameHandler(e:Event):void {
@@ -127,6 +135,11 @@ package game.core {
 					if(interactive != null){
 						this.startInteraction();
 						interactive.interact();
+					}
+				} else if(Key.pressed(ITEM_KEY)){
+					if(interactive != null){
+						this.startInteraction();
+						interactive.interact(Game.currentGame.itemManager.item1);
 					}
 				}
 			/********************
