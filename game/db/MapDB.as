@@ -37,6 +37,7 @@
 			mapArray[24] = "1-3반 교실";
 			mapArray[25] = "1-4반 교실";
 			mapArray[26] = "지하창고(좌)";
+			mapArray[27] = "환풍구";
 			
 			
 			doorData = new Object();
@@ -99,6 +100,7 @@
 			doorData.m16d2 = new DoorData(14, -97, 467);
 			
 			doorData.m17d1 = new DoorData(14, 268, 481);
+			doorData.m17fan = new DoorData(27, -1752, -460);
 			
 			doorData.m18d1 = new DoorData(14, 1263, 473);
 			
@@ -120,6 +122,7 @@
 			doorData.m22d2 = new DoorData(20, 574, 502);
 			
 			doorData.m23d1 = new DoorData(20, 979, 494);
+			doorData.m23fan = new DoorData(27, -1656, -1108);
 			
 			doorData.m24d1 = new DoorData(20, 1969, 501);
 			doorData.m24d2 = new DoorData(20, 3218, 504);
@@ -128,6 +131,10 @@
 			doorData.m25down = new DoorData(19, 341, 405);
 			
 			doorData.m26d1 = new DoorData(3, 1278, 513);
+			
+			doorData.m27third = new DoorData(17, 594, 563);
+			doorData.m27fourth = new DoorData(23, 624, 592);
+			doorData.m27underground = new DoorData(0, 0, 0);
 		}
 		
 		public static function getMapName(index:int):String {

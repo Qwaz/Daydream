@@ -8,7 +8,6 @@
 			eventData = new Object();
 			
 			eventData.itemFirst = true; //아이템 최초 획득
-			eventData.acidFirst = true; //염산 최초 획득
 			
 			eventData.m2m1 = true; //운동장 독백 1
 			eventData.m2m2 = true; //운동장 독백 2
@@ -22,6 +21,11 @@
 			
 			eventData.m7enter = true; //교무실 입장 이벤트
 			eventData.m7collapse = true; //교무실 독백
+			
+			eventData.m13beaker = true; //비커에 염산 있는지
+			
+			eventData.m17fan = true; //3층 화장실 나사 풀었는지
+			eventData.m17fan2 = true; //3층 화장실 환풍구 뚫었는지
 			
 			eventData.m22window = true; //깨진 창문 확인 이벤트
 			

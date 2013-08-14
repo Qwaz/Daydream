@@ -63,6 +63,8 @@
 		}
 		
 		private function saveGame(so:SharedObject):void {
+			CollectionViewer.collectionViewer.collect("eSave");
+			
 			var target:Object = so.data;
 			
 			target.saved = true;

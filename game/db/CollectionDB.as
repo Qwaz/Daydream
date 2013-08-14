@@ -36,11 +36,11 @@
 			
 			addStoryCollection("sDanger",
 							   "붕괴 위험",
-							   "수위실에서 다음과 같은 내용이 적힌 종이를 보았다.\n- 지반 조사 결과 위험 판정\n- 벽의 균열 위험 수준",
+							   "수위실에서 다음과 같은 내용이 적힌 종이를 보았다.\n지반 조사 결과 위험 판정. 벽의 균열 위험 수준.",
 							   1);
 			
 			addStoryCollection("sLockedTeacherRoom",
-							   "잠긴 교무실 문",
+							   "잠긴 교무실",
 							   "교무실 문이 잠겨 있다. 어딘가에 열쇠가 없을까?",
 							   1);
 			
@@ -69,9 +69,19 @@
 							   "여러가지 실험을 할 수 있는 공간이다. 폐교가 되며 많은 기자재들이 사라졌지만 몇몇 약품은 남아있는 듯 하다.",
 							   1);
 			
+			addStoryCollection("sDangerAcid",
+							   "위험한 산",
+							   "염산을 바로 녹슨 열쇠에 부으면 다칠 수도 있다. 염산을 옮겨 담을 곳이 없을까?",
+							   1);
+			
 			addStoryCollection("sRoot",
 							   "나무 뿌리",
 							   "지하 창고의 중앙에 나무뿌리가 벽을 뚫고 들어와 통행이 제한되었다.",
+							   1);
+			
+			addStoryCollection("sSlotUpgrade",
+							   "슬롯 증설",
+							   "아이템을 두개까지 들 수 있게 되었다.",
 							   1);
 			
 			addStoryCollection("sBallPlay",
@@ -96,8 +106,13 @@
 			
 			addExtraCollection("eItemDrop",
 							   "분리수거",
-							   "아이템을 100번 내려놓는다.",
-							   100);
+							   "아이템을 30번 내려놓는다.",
+							   30);
+			
+			addExtraCollection("eSave",
+							   "꾸준한 기록가",
+							   "30번 저장한다.",
+							   30);
 		}
 		
 		private static function addStoryCollection(name:String, title:String, description:String, num:int):void {

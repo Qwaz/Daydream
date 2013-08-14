@@ -8,6 +8,8 @@
 	import flash.ui.Keyboard;
 	import flash.ui.Mouse;
 	
+	import flash.media.Sound;
+	
 	import flash.text.TextField;
 	import flash.text.TextFieldType;
 	import flash.text.TextFieldAutoSize;
@@ -33,6 +35,8 @@
 		private var name_txt:TextField = new TextField();
 		private var exp_txt:TextField = new TextField();
 		private var name_format:TextFormat = new TextFormat();
+		
+		private var sound:Sound = new ItemFound();
 
 		public function ItemManager(){
 			name_format.align = TextFormatAlign.CENTER;
@@ -107,8 +111,10 @@
 		{
 			if(_slot1==0){
 				_slot1 = itemCode;
+				sound.play();
 			} else if(_upgrade && _slot2==0){
 				_slot2 = itemCode;
+				sound.play();
 			} else {
 				//슬롯 부족
 				return false;
@@ -162,6 +168,7 @@
 		public function upgrade():void
 		{
 			_upgrade = true;
+			CollectionViewer.collectionViewer.collect("sSlotUpgrade");
 			refresh();
 		}
 		
@@ -176,6 +183,11 @@
 		
 		public function get item1():int {
 			return _slot1;
+		}
+		
+		public function set item1(item:int):void {
+			_slot1 = item;
+			refresh();
 		}
 		
 		public function get item2():int {

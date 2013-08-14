@@ -56,24 +56,14 @@
 						"오른쪽 위의 아이템창에 마우스를 올려 놓아 아이템의 정보를 확인할 수 있습니다."]);
 						CollectionViewer.collectionViewer.collect("eItemFirst");
 					}
-					if(_itemCode == 10){
-						//염산 획득시
-						if(Game.currentGame.event.acidFirst == false){
-							Game.currentGame.event.acidFirst = true;
-							Game.currentGame.textBox.textBaker.pushArray(
-							["조합 가능한 아이템을 획득하셨습니다.",
-							"아이템을 조합하려면 아이템을 바닥에 내려 놓은 상태로 다른 아이템을 그 위에서 사용합니다.",
-							"아이템 조합에는 순서가 중요합니다. A를 내려놓고 B를 사용하는 조합과 B를 내려놓고 A를 사용하는 것은 다른 조합입니다."])
-						}
-					}
 					this.parent.removeChild(this);
 					Game.currentGame.world.removeEventListener(MapEvent.MOVE_MAP, moveMapHandler);
 				}
 			} else {
-				if(item == 10 && _itemCode == 8){
-					Game.currentGame.textBox.textBaker.push("염산으로 녹슨 열쇠의 녹을 제거했다.");
-					_itemCode = 9;
-					this.gotoAndStop(10);
+				if(_itemCode == 8 && item == 10){
+					Game.currentGame.textBox.textBaker.pushArray(
+					["염산을 바로 사용할 경우 다칠 수도 있다. 염산을 옮겨 담을 곳이 없을까?"]);
+					CollectionViewer.collectionViewer.collect("sDangerAcid");
 				} else {
 					Game.currentGame.textBox.textBaker.push("아이템 조합에 실패했습니다.");
 					CollectionViewer.collectionViewer.collect("eItemFail");

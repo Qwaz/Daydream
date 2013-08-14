@@ -107,6 +107,8 @@ package game.core {
 				speedY = 0;
 			} else {
 				this.state = FALL;
+				speedX = 0;
+				speedY = 0;
 			}
 		}
 		
